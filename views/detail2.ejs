@@ -4,6 +4,12 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Detail Paket — ABBA Tour</title>
+    <meta name="msapplication-TileImage" content="/assets/logo-270.png"/>
+    <link rel="icon" type="image/png" href="/assets/logo-270.png">
+    <!-- Untuk Apple devices -->
+    <link rel="apple-touch-icon" sizes="180x180" href="i/assets/logo-180.png">
+    <!-- Untuk Android/Chrome -->
+    <link rel="icon" sizes="192x192" href="/assets/logo-192.png">
     <script src="https://cdn.tailwindcss.com">
     </script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -285,18 +291,14 @@
                     <span class="sm:hidden">Kembali</span>
                 </a>
                 <div class="hidden md:block w-px h-6 bg-gray-300/60"></div>
-                <a href="/" class="flex items-center gap-2">
-                    <div class="w-8 h-8 md:w-10 md:h-10 rounded-full bg-gradient-to-br from-green-600 to-emerald-400 flex items-center justify-center text-white font-extrabold text-xs shadow-lg shadow-green-600/20">
-                        AB
-                    </div>
-                    <span class="text-base md:text-lg font-extrabold text-gray-800 tracking-tight">
-                        ABBA <span class="text-green-700">Tour</span>
-                    </span>
+                <!-- Logo -->
+                <a href="/" class="flex items-center">
+                    <img src="/assets/logo.png" alt="Logo ABBA Tour" class="h-12 w-auto object-contain">
                 </a>
             </div>
 
             <!-- CTA kecil -->
-            <a href="https://wa.me/6281234567890" target="_blank" class="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white text-xs md:text-sm font-bold px-4 py-2 rounded-full transition shadow-lg shadow-green-600/20">
+            <a href="https://wa.me/6281328897272" target="_blank" class="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white text-xs md:text-sm font-bold px-4 py-2 rounded-full transition shadow-lg shadow-green-600/20">
                 <i class="fab fa-whatsapp"></i>
                 <span class="hidden sm:inline">Hubungi Kami</span>
             </a>
@@ -395,7 +397,7 @@
                         <div class="mt-8 fade-up fade-up-d4">
                             <% 
                                const pesanWa = `Assalamu'alaikum admin ABBA Tour, saya tertarik dengan *${pkg.title}* (${pkg.duration}) seharga ${pkg.price}. Bisa minta informasi lebih lanjut?`;
-                               const linkWa = `https://wa.me/6281234567890?text=${encodeURIComponent(pesanWa)}`;
+                               const linkWa = `https://wa.me/6281328897272?text=${encodeURIComponent(pesanWa)}`;
                             %>
                             <a href="<%= linkWa %>" target="_blank" class="wa-btn">
                                 <i class="fab fa-whatsapp"></i>
@@ -458,18 +460,18 @@
     <footer class="footer-gradient text-white/80 py-8 px-4 border-t-4 border-green-600 mt-8">
         <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 text-sm">
             <div class="flex items-center gap-3">
-                <div class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-white font-extrabold text-xs backdrop-blur-sm border border-white/10">
-                    AB
-                </div>
-                <span class="font-bold text-white">ABBA <span class="text-emerald-300">Tour</span></span>
+                <!-- Logo -->
+                <a class="flex items-center">
+                    <img src="/assets/logo.png" alt="Logo ABBA Tour" class="h-12 w-auto object-contain">
+                </a>
                 <span class="hidden md:inline text-white/30">|</span>
                 <span class="text-white/50 text-xs md:text-sm">PT. Abu Bakar Berkah</span>
             </div>
             <p class="text-white/40 text-xs">&copy; 2026 — Melayani dengan Hati</p>
             <div class="flex gap-4 text-white/40">
-                <a href="#" class="hover:text-white transition"><i class="fab fa-facebook-f"></i></a>
-                <a href="#" class="hover:text-white transition"><i class="fab fa-instagram"></i></a>
-                <a href="#" class="hover:text-white transition"><i class="fab fa-youtube"></i></a>
+                <a href="https://www.facebook.com/share/198GvfRZpW/" target="_blank" class="hover:text-white transition"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://www.instagram.com/abbatourandtravel/" target="_blank" class="hover:text-white transition"><i class="fab fa-instagram"></i></a>
+                <a href="https://youtube.com/@abubakarberkah?si=sefiV89FUTDYU-kV" target="_blank" class="hover:text-white transition"><i class="fab fa-youtube"></i></a>
             </div>
         </div>
     </footer>
