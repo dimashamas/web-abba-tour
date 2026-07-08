@@ -1,0 +1,249 @@
+const express = require('express');
+const mongoose = require('mongoose');
+const multer = require('multer');
+const path = require('path');
+const fs = require('fs');
+const session = require('express-session'); // Paket Sesi
+const bcrypt = require('bcryptjs');         // Paket Enkripsi
+const Package = require('./models/Package');
+const Gallery = require('./models/Gallery');
+const Article = require('./models/Article');
+const Banner = require('./models/Banner'); // Model Baru
+const Admin = require('./models/Admin');    // Model Admin
+
+
+const app = express();
+const PORT = 3000;
+
+app.set('view engine', 'ejs');
+app.use(express.static('public'));
+app.use(express.urlencoded({ extended: true }));
+
+// --- KONFIGURASI SESI (SESSION) ---
+app.use(session({
+    secret: 'kunci-rahasia-abba-tour-2026', // Kunci enkripsi sesi
+    resave: false,
+    saveUninitialized: false,
+    cookie: { maxAge: 1000 * 60 * 60 * 24 } // Sesi login bertahan 1 hari (24 jam)
+}));
+
+mongoose.connect('mongodb://127.0.0.1:27017/abbatour');
+
+// --- BUAT AKUN ADMIN BAWAAN JIKA KOSONG ---
+const setupDefaultAdmin = async () => {
+    const adminCount = await Admin.countDocuments();
+    if (adminCount === 0) {
+        const hashedPassword = await bcrypt.hash('admin', 10);
+        await Admin.create({ username: 'admin', password: hashedPassword });
+        console.log('=========================================');
+        console.log('AKUN ADMIN DEFAULT DIBUAT: admin / admin');
+        console.log('=========================================');
+    }
+};
+setupDefaultAdmin();
+
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => cb(null, 'public/assets/'),
+    filename: (req, file, cb) => cb(null, Date.now() + path.extname(file.originalname))
+});
+const upload = multer({ storage: storage });
+
+// --- ROUTES PENGUNJUNG ---
+app.get('/', async (req, res) => {
+    const banners = await Banner.find().sort({ createdAt: -1 }); // Ambil banner
+    const umrohPackages = await Package.find({ type: 'Umroh', isActive: true }).sort({ departureDate: 1 });
+    const hajiPackages = await Package.find({ type: 'Haji', isActive: true }).sort({ departureDate: 1 });
+    const galleries = await Gallery.find();
+    const articles = await Article.find().sort({ createdAt: -1 });
+    res.render('index2', { banners, umrohPackages, hajiPackages, galleries, articles });
+});
+app.get('/v2', async (req, res) => {
+    const banners = await Banner.find().sort({ createdAt: -1 }); // Ambil banner
+    const umrohPackages = await Package.find({ type: 'Umroh', isActive: true }).sort({ departureDate: 1 });
+    const hajiPackages = await Package.find({ type: 'Haji', isActive: true }).sort({ departureDate: 1 });
+    const galleries = await Gallery.find();
+    const articles = await Article.find().sort({ createdAt: -1 });
+    res.render('index2', { banners, umrohPackages, hajiPackages, galleries, articles });
+});
+
+app.get('/paket/:id', async (req, res) => {
+    try {
+        const pkg = await Package.findById(req.params.id);
+        let umrohPackages = await Package.find({ type: 'Umroh', isActive: true }).sort({ departureDate: 1 });
+        umrohPackages = umrohPackages.filter(item => item.id !== pkg.id)
+        if (!pkg) return res.status(404).send('Paket tidak ditemukan');
+        res.render('detail2', { pkg, umrohPackages });
+    } catch (err) {
+        res.status(500).send('Terjadi kesalahan server.');
+    }
+});
+
+app.get('/artikel/:id', async (req, res) => {
+    try {
+        const article = await Article.findById(req.params.id);
+        if (!article) return res.status(404).send('Artikel tidak ditemukan');
+        res.render('article-detail2', { article });
+    } catch (err) {
+        res.status(500).send('Terjadi kesalahan server saat memuat artikel.');
+    }
+});
+
+// --- ROUTES AUTENTIKASI (LOGIN / LOGOUT) ---
+app.get('/login', (req, res) => {
+    // Jika sudah login, langsung arahkan ke admin
+    if (req.session.adminId) return res.redirect('/admin');
+    res.render('login', { error: null });
+});
+
+app.post('/login', async (req, res) => {
+    const { username, password } = req.body;
+    const admin = await Admin.findOne({ username: username });
+    
+    // Cek apakah username ada dan password cocok
+    if (admin && await bcrypt.compare(password, admin.password)) {
+        req.session.adminId = admin._id; // Simpan sesi
+        res.redirect('/admin');
+    } else {
+        res.render('login', { error: 'Username atau password salah!' });
+    }
+});
+
+app.get('/logout', (req, res) => {
+    req.session.destroy(); // Hapus sesi
+    res.redirect('/login');
+});
+
+// --- MIDDLEWARE PROTEKSI HALAMAN ADMIN ---
+// Semua route di bawah baris ini wajib login terlebih dahulu
+const requireLogin = (req, res, next) => {
+    if (req.session.adminId) {
+        next(); // Lanjutkan
+    } else {
+        res.redirect('/login'); // Tolak, kembalikan ke halaman login
+    }
+};
+app.use('/admin', requireLogin); 
+
+// --- ROUTES ADMIN DASHBOARD (TERLINDUNGI) ---
+app.get('/admin', async (req, res) => {
+    const banners = await Banner.find().sort({ createdAt: -1 });
+    const packages = await Package.find().sort({ departureDate: 1 });
+    const galleries = await Gallery.find();
+    const articles = await Article.find().sort({ createdAt: -1 });
+    const admins = await Admin.find(); // Ambil data admin
+    res.render('admin', { banners, packages, galleries, articles, admins });
+});
+
+// Tambah Akun Admin Baru
+app.post('/admin/add-account', async (req, res) => {
+    try {
+        const hashedPassword = await bcrypt.hash(req.body.password, 10);
+        await Admin.create({ username: req.body.username, password: hashedPassword });
+        res.redirect('/admin');
+    } catch (err) {
+        res.send("Gagal menambah admin. Username mungkin sudah dipakai.");
+    }
+});
+
+// Hapus Akun Admin
+app.post('/admin/delete-account/:id', async (req, res) => {
+    // Cegah admin menghapus dirinya sendiri (opsional tapi disarankan)
+    if (req.params.id === req.session.adminId) {
+        return res.send("Anda tidak bisa menghapus akun yang sedang Anda gunakan saat ini.");
+    }
+    await Admin.findByIdAndDelete(req.params.id);
+    res.redirect('/admin');
+});
+
+// --- ROUTES TAMBAH DATA ---
+app.post('/admin/add-banner', upload.single('image'), async (req, res) => {
+    await Banner.create({ title: req.body.title, image: '/assets/' + req.file.filename });
+    res.redirect('/admin');
+});
+
+app.post('/admin/add-package', upload.single('image'), async (req, res) => {
+    await Package.create({ ...req.body, image: '/assets/' + req.file.filename });
+    res.redirect('/admin');
+});
+
+app.post('/admin/add-gallery', upload.single('image'), async (req, res) => {
+    await Gallery.create({ title: req.body.title, image: '/assets/' + req.file.filename });
+    res.redirect('/admin');
+});
+
+app.post('/admin/add-article', upload.single('image'), async (req, res) => {
+    await Article.create({ ...req.body, image: '/assets/' + req.file.filename });
+    res.redirect('/admin');
+});
+
+// --- ROUTES EDIT (TAMPILKAN FORM) ---
+app.get('/admin/edit/:type/:id', async (req, res) => {
+    const { type, id } = req.params;
+    let data = null;
+    
+    if (type === 'banner') data = await Banner.findById(id);
+    else if (type === 'package') data = await Package.findById(id);
+    else if (type === 'gallery') data = await Gallery.findById(id);
+    else if (type === 'article') data = await Article.findById(id);
+
+    if (!data) return res.status(404).send('Data tidak ditemukan');
+    res.render('edit', { type, data });
+});
+
+// --- ROUTES EDIT (SIMPAN PERUBAHAN) ---
+app.post('/admin/edit/:type/:id', upload.single('image'), async (req, res) => {
+    const { type, id } = req.params;
+    let updateData = { ...req.body };
+
+    if (req.file) {
+        updateData.image = '/assets/' + req.file.filename;
+        let oldData;
+        if (type === 'banner') oldData = await Banner.findById(id);
+        if (type === 'package') oldData = await Package.findById(id);
+        if (type === 'gallery') oldData = await Gallery.findById(id);
+        if (type === 'article') oldData = await Article.findById(id);
+
+        if (oldData && oldData.image) {
+            const oldPath = path.join(__dirname, 'public', oldData.image);
+            if (fs.existsSync(oldPath)) fs.unlinkSync(oldPath);
+        }
+    }
+
+    if (type === 'banner') await Banner.findByIdAndUpdate(id, updateData);
+    else if (type === 'package') {
+        updateData.isActive = req.body.isActive === 'on';
+        await Package.findByIdAndUpdate(id, updateData);
+    } 
+    else if (type === 'gallery') await Gallery.findByIdAndUpdate(id, updateData);
+    else if (type === 'article') await Article.findByIdAndUpdate(id, updateData);
+
+    res.redirect('/admin');
+});
+
+// --- ROUTES HAPUS ---
+app.post('/admin/delete/:type/:id', async (req, res) => {
+    const { type, id } = req.params;
+    let oldData;
+
+    if (type === 'banner') {
+        oldData = await Banner.findById(id);
+        await Banner.findByIdAndDelete(id);
+    } else if (type === 'package') {
+        oldData = await Package.findById(id);
+        await Package.findByIdAndDelete(id);
+    } else if (type === 'gallery') {
+        oldData = await Gallery.findById(id);
+        await Gallery.findByIdAndDelete(id);
+    } else if (type === 'article') {
+        oldData = await Article.findById(id);
+        await Article.findByIdAndDelete(id);
+    }
+
+    if (oldData && oldData.image) {
+        const filePath = path.join(__dirname, 'public', oldData.image);
+        if (fs.existsSync(filePath)) fs.unlinkSync(filePath);
+    }
+    res.redirect('/admin');
+});
+
+app.listen(PORT, () => console.log(`Server berjalan di http://localhost:${PORT}`));

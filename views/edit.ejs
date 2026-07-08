@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Data - ABBA Tour Admin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="bg-gray-100 p-10 font-sans min-h-screen flex items-center justify-center">
+
+    <div class="w-full max-w-2xl bg-white p-8 rounded-xl shadow-xl border-t-4 border-blue-500">
+        <div class="flex justify-between items-center mb-6 border-b pb-4">
+            <h1 class="text-2xl font-bold text-gray-800 capitalize"><i class="fas fa-edit text-blue-500 mr-2"></i> Edit <%= type %></h1>
+            <a href="/admin" class="text-gray-500 hover:text-gray-800 text-sm font-semibold"><i class="fas fa-times mr-1"></i> Batal & Kembali</a>
+        </div>
+
+        <form action="/admin/edit/<%= type %>/<%= data._id %>" method="POST" enctype="multipart/form-data" class="space-y-5">
+            
+            <div class="bg-gray-50 p-4 rounded-lg flex items-center space-x-4 border border-gray-200">
+                <img src="<%= data.image %>" class="w-24 h-24 object-cover rounded shadow">
+                <div>
+                    <p class="text-sm font-bold text-gray-700">Gambar Saat Ini</p>
+                    <p class="text-xs text-gray-500 mb-2">Upload file baru di bawah jika ingin mengganti gambar ini.</p>
+                    <input type="file" name="image" class="w-full text-sm file:mr-4 file:py-1 file:px-3 file:rounded file:border-0 file:bg-blue-50 file:text-blue-700">
+                </div>
+            </div>
+            
+            <% if (type === 'banner') { %>
+                <div>
+                    <label class="block text-xs text-gray-500 mb-1">Teks Utama Banner</label>
+                    <input type="text" name="title" value="<%= data.title %>" required class="w-full border border-gray-300 p-2.5 rounded font-bold">
+                </div>
+            <% } %>
+            <% if (type === 'package') { %>
+                <input type="text" name="title" value="<%= data.title %>" required class="w-full border border-gray-300 p-2.5 rounded focus:ring-blue-500 font-bold text-lg">
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs text-gray-500 mb-1">Tipe Paket</label>
+                        <select name="type" required class="w-full border border-gray-300 p-2.5 rounded">
+                            <option value="Umroh" <%= data.type === 'Umroh' ? 'selected' : '' %>>Program Umroh</option>
+                            <option value="Haji" <%= data.type === 'Haji' ? 'selected' : '' %>>Program Haji Khusus</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs text-gray-500 mb-1">Tanggal Keberangkatan</label>
+                        <input type="date" name="departureDate" value="<%= data.departureDate ? data.departureDate.toISOString().split('T')[0] : '' %>" required class="w-full border border-gray-300 p-2.5 rounded">
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs text-gray-500 mb-1">Durasi</label>
+                        <input type="text" name="duration" value="<%= data.duration %>" required class="w-full border border-gray-300 p-2.5 rounded">
+                    </div>
+                    <div>
+                        <label class="block text-xs text-gray-500 mb-1">Harga</label>
+                        <input type="text" name="price" value="<%= data.price %>" required class="w-full border border-gray-300 p-2.5 rounded text-green-700 font-bold">
+                    </div>
+                </div>
+                <textarea name="description" required class="w-full border border-gray-300 p-2.5 rounded h-32"><%= data.description %></textarea>
+                <div class="flex items-center space-x-2 bg-gray-50 p-3 rounded border">
+                    <input type="checkbox" name="isActive" id="isActive" <%= data.isActive ? 'checked' : '' %> class="w-5 h-5 text-blue-600 rounded focus:ring-blue-500">
+                    <label for="isActive" class="font-medium text-gray-700 cursor-pointer">Centang agar paket ini tampil di website (Status Aktif)</label>
+                </div>
+            <% } %>
+
+            <% if (type === 'gallery') { %>
+                <div>
+                    <label class="block text-xs text-gray-500 mb-1">Judul Foto</label>
+                    <input type="text" name="title" value="<%= data.title %>" required class="w-full border border-gray-300 p-2.5 rounded font-bold">
+                </div>
+            <% } %>
+
+            <% if (type === 'article') { %>
+                <div>
+                    <label class="block text-xs text-gray-500 mb-1">Judul Artikel</label>
+                    <input type="text" name="title" value="<%= data.title %>" required class="w-full border border-gray-300 p-2.5 rounded font-bold text-lg">
+                </div>
+                <div>
+                    <label class="block text-xs text-gray-500 mb-1">Isi Artikel</label>
+                    <textarea name="content" required class="w-full border border-gray-300 p-2.5 rounded h-64 leading-relaxed"><%= data.content %></textarea>
+                </div>
+            <% } %>
+
+            <div class="pt-4 border-t border-gray-200 flex justify-end space-x-3">
+                <a href="/admin" class="bg-gray-200 text-gray-700 px-6 py-2.5 rounded font-bold hover:bg-gray-300 transition">Batal</a>
+                <button type="submit" class="bg-blue-600 text-white px-8 py-2.5 rounded font-bold hover:bg-blue-700 transition shadow-lg"><i class="fas fa-save mr-2"></i> Simpan Perubahan</button>
+            </div>
+        </form>
+    </div>
+
+</body>
+</html>

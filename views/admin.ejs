@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Admin - ABBA Tour</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="bg-gray-50 font-sans flex h-screen overflow-hidden">
+
+    <aside class="w-64 bg-green-800 text-white flex flex-col shadow-xl z-20">
+        <div class="p-6 text-center border-b border-green-700">
+            <h2 class="text-2xl font-bold text-yellow-400 tracking-wide">ABBA TOUR</h2>
+            <p class="text-green-200 text-sm mt-1">Admin Panel</p>
+        </div>
+        <nav class="flex-grow p-4 space-y-2 overflow-y-auto">
+            <button id="btn-banner" onclick="switchTab('banner')" class="w-full text-left block py-3 px-4 rounded transition bg-green-700 border-l-4 border-yellow-400 font-medium">
+                <i class="fas fa-image w-6"></i> Slider Utama
+            </button>
+            <button id="btn-paket" onclick="switchTab('paket')" class="w-full text-left block py-3 px-4 rounded transition hover:bg-green-700 border-l-4 border-transparent font-medium">
+                <i class="fas fa-kaaba w-6"></i> Paket Umroh & Haji
+            </button>
+            <button id="btn-galeri" onclick="switchTab('galeri')" class="w-full text-left block py-3 px-4 rounded transition hover:bg-green-700 border-l-4 border-transparent font-medium">
+                <i class="fas fa-images w-6"></i> Galeri
+            </button>
+            <button id="btn-artikel" onclick="switchTab('artikel')" class="w-full text-left block py-3 px-4 rounded transition hover:bg-green-700 border-l-4 border-transparent font-medium">
+                <i class="fas fa-newspaper w-6"></i> Artikel Blog
+            </button>
+            <button id="btn-akun" onclick="switchTab('akun')" class="w-full text-left block py-3 px-4 rounded transition hover:bg-green-700 border-l-4 border-transparent font-medium">
+                <i class="fas fa-users-cog w-6"></i> Kelola Admin
+            </button>
+        </nav>
+        <div class="p-4 border-t border-green-700 space-y-2">
+            <a href="/" target="_blank" class="block w-full bg-yellow-500 text-green-900 text-center py-2 rounded font-bold hover:bg-yellow-400 transition"><i class="fas fa-globe mr-2"></i> Lihat Website</a>
+            <!-- TOMBOL LOGOUT -->
+            <a href="/logout" class="block w-full bg-red-600 text-white text-center py-2 rounded font-bold hover:bg-red-700 transition"><i class="fas fa-sign-out-alt mr-2"></i> Keluar</a>
+        </div>
+        <!-- <div class="p-4 border-t border-green-700">
+            <a href="/" target="_blank" class="block w-full bg-yellow-500 text-green-900 text-center py-2 rounded font-bold hover:bg-yellow-400 transition">
+                <i class="fas fa-globe mr-2"></i> Lihat Website
+            </a>
+        </div> -->
+    </aside>
+
+    <main class="flex-grow h-screen overflow-y-auto bg-gray-100 p-8">
+        
+        <header class="mb-8 border-b border-gray-200 pb-4">
+            <h1 class="text-3xl font-extrabold text-gray-800">Selamat Datang, Admin</h1>
+            <p class="text-gray-500 mt-1">Kelola seluruh konten website ABBA Tour dari panel ini.</p>
+        </header>
+        <section id="panel-banner" class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 block">
+            <h2 class="text-xl font-bold text-gray-800 mb-6 flex items-center border-b pb-4"><i class="fas fa-image text-green-600 mr-3"></i> Manajemen Slider Utama</h2>
+            
+            <form action="/admin/add-banner" method="POST" enctype="multipart/form-data" class="flex flex-col md:flex-row gap-4 mb-8 bg-gray-50 p-4 rounded-lg border border-gray-100">
+                <input type="text" name="title" placeholder="Teks Gambar (cth: Keindahan Masjid Nabawi)" required class="flex-grow border border-gray-300 p-2 rounded text-sm focus:ring-green-500">
+                <input type="file" name="image" required class="border border-gray-300 p-2 rounded bg-white text-sm">
+                <button type="submit" class="bg-green-600 text-white font-bold py-2 px-6 rounded hover:bg-green-700 transition">Upload Banner</button>
+            </form>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <% banners.forEach(banner => { %>
+                    <div class="relative group rounded-lg overflow-hidden border shadow-sm">
+                        <img src="<%= banner.image %>" class="w-full h-40 object-cover">
+                        <div class="p-3 bg-white">
+                            <p class="font-bold text-gray-800 truncate"><%= banner.title %></p>
+                            <div class="flex space-x-2 mt-3">
+                                <a href="/admin/edit/banner/<%= banner._id %>" class="bg-blue-500 text-white px-3 py-1 rounded text-xs"><i class="fas fa-edit"></i> Edit</a>
+                                <form action="/admin/delete/banner/<%= banner._id %>" method="POST" onsubmit="return confirm('Hapus banner ini?')">
+                                    <button class="bg-red-500 text-white px-3 py-1 rounded text-xs"><i class="fas fa-trash"></i> Hapus</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                <% }) %>
+            </div>
+        </section>
+
+        <section id="panel-paket" class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 hidden">
+            <h2 class="text-xl font-bold text-gray-800 mb-6 flex items-center border-b pb-4"><i class="fas fa-kaaba text-green-600 mr-3"></i> Manajemen Paket Umroh & Haji</h2>
+            <div class="grid grid-cols-1 xl:grid-cols-3 gap-8">
+                <div class="xl:col-span-1 bg-gray-50 p-5 rounded-lg border border-gray-100 h-fit">
+                    <h3 class="font-bold text-gray-700 mb-4">Tambah Paket Baru</h3>
+                    <form action="/admin/add-package" method="POST" enctype="multipart/form-data" class="space-y-3 text-sm">
+                        <input type="text" name="title" placeholder="Nama Paket (cth: Paket Umroh Syawal)" required class="w-full border border-gray-300 p-2 rounded focus:ring-green-500 focus:border-green-500">
+                        <select name="type" required class="w-full border border-gray-300 p-2 rounded focus:ring-green-500">
+                            <option value="Umroh">Program Umroh</option>
+                            <option value="Haji">Program Haji Khusus</option>
+                        </select>
+                        <div>
+                            <label class="block text-xs text-gray-500 mb-1">Tanggal Keberangkatan</label>
+                            <input type="date" name="departureDate" required class="w-full border border-gray-300 p-2 rounded">
+                        </div>
+                        <input type="text" name="duration" placeholder="Durasi (cth: 9 Hari)" required class="w-full border border-gray-300 p-2 rounded">
+                        <input type="text" name="price" placeholder="Harga (cth: Rp 30.000.000)" required class="w-full border border-gray-300 p-2 rounded">
+                        <div>
+                            <label class="block text-xs text-gray-500 mb-1">Brosur / Gambar</label>
+                            <input type="file" name="image" required class="w-full text-xs file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:bg-green-100 file:text-green-700">
+                        </div>
+                        <textarea name="description" placeholder="Deskripsi & Fasilitas..." required class="w-full border border-gray-300 p-2 rounded h-24"></textarea>
+                        <button type="submit" class="w-full bg-green-600 text-white font-bold py-2 rounded hover:bg-green-700 transition">Simpan Paket</button>
+                    </form>
+                </div>
+
+                <div class="xl:col-span-2 overflow-x-auto">
+                    <table class="min-w-full text-left text-sm whitespace-nowrap">
+                        <thead class="bg-gray-100 text-gray-600">
+                            <tr>
+                                <th class="p-3 font-semibold rounded-tl-lg">Info Paket</th>
+                                <th class="p-3 font-semibold">Tipe & Jadwal</th>
+                                <th class="p-3 font-semibold">Status</th>
+                                <th class="p-3 font-semibold rounded-tr-lg text-center">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-100">
+                            <% packages.forEach(pkg => { %>
+                                <tr class="hover:bg-gray-50 transition">
+                                    <td class="p-3 flex items-center space-x-3">
+                                        <img src="<%= pkg.image %>" class="w-12 h-12 object-cover rounded shadow-sm">
+                                        <div>
+                                            <p class="font-bold text-gray-800"><%= pkg.title %></p>
+                                            <p class="text-green-600 font-semibold"><%= pkg.price %></p>
+                                        </div>
+                                    </td>
+                                    <td class="p-3">
+                                        <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full"><%= pkg.type %></span>
+                                        <p class="text-xs text-gray-500 mt-1"><%= pkg.departureDate ? pkg.departureDate.toLocaleDateString('id-ID') : 'Data Lama' %> (<%= pkg.duration %>)</p>
+                                    </td>
+                                    <td class="p-3">
+                                        <span class="<%= pkg.isActive ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700' %> text-xs font-bold px-2 py-1 rounded">
+                                            <%= pkg.isActive ? 'Aktif' : 'Nonaktif' %>
+                                        </span>
+                                    </td>
+                                    <td class="p-3 text-center">
+                                        <a href="/admin/edit/package/<%= pkg._id %>" class="inline-block bg-blue-500 text-white px-3 py-1.5 rounded hover:bg-blue-600 transition text-xs shadow-sm mr-1"><i class="fas fa-edit"></i> Edit</a>
+                                        <form action="/admin/delete/package/<%= pkg._id %>" method="POST" class="inline" onsubmit="return confirm('Hapus paket ini?')">
+                                            <button class="bg-red-500 text-white px-3 py-1.5 rounded hover:bg-red-600 transition text-xs shadow-sm"><i class="fas fa-trash"></i> Hapus</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            <% }) %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <section id="panel-galeri" class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 hidden">
+            <h2 class="text-xl font-bold text-gray-800 mb-6 flex items-center border-b pb-4"><i class="fas fa-images text-green-600 mr-3"></i> Manajemen Galeri</h2>
+            
+            <form action="/admin/add-gallery" method="POST" enctype="multipart/form-data" class="flex flex-col md:flex-row gap-4 mb-8 bg-gray-50 p-4 rounded-lg border border-gray-100">
+                <input type="text" name="title" placeholder="Judul Foto (cth: Jamaah Umroh April 2026)" required class="flex-grow border border-gray-300 p-2 rounded text-sm focus:ring-green-500">
+                <input type="file" name="image" required class="border border-gray-300 p-2 rounded bg-white text-sm">
+                <button type="submit" class="bg-green-600 text-white font-bold py-2 px-6 rounded hover:bg-green-700 transition">Upload Foto</button>
+            </form>
+
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <% galleries.forEach(foto => { %>
+                    <div class="relative group rounded-lg overflow-hidden border border-gray-200 shadow-sm">
+                        <img src="<%= foto.image %>" class="w-full h-40 object-cover">
+                        <div class="absolute inset-0 bg-black bg-opacity-60 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300">
+                            <p class="text-white text-sm font-bold text-center px-2 mb-3"><%= foto.title %></p>
+                            <div class="flex space-x-2">
+                                <a href="/admin/edit/gallery/<%= foto._id %>" class="bg-blue-500 text-white p-2 rounded-full hover:bg-blue-600"><i class="fas fa-edit"></i></a>
+                                <form action="/admin/delete/gallery/<%= foto._id %>" method="POST" onsubmit="return confirm('Hapus foto ini?')">
+                                    <button class="bg-red-500 text-white p-2 rounded-full hover:bg-red-600"><i class="fas fa-trash"></i></button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                <% }) %>
+            </div>
+        </section>
+
+        <section id="panel-artikel" class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 hidden">
+            <h2 class="text-xl font-bold text-gray-800 mb-6 flex items-center border-b pb-4"><i class="fas fa-newspaper text-green-600 mr-3"></i> Manajemen Artikel Blog</h2>
+            
+            <div class="grid grid-cols-1 xl:grid-cols-3 gap-8">
+                <div class="xl:col-span-1 bg-gray-50 p-5 rounded-lg border border-gray-100 h-fit">
+                    <form action="/admin/add-article" method="POST" enctype="multipart/form-data" class="space-y-3 text-sm">
+                        <input type="text" name="title" placeholder="Judul Artikel" required class="w-full border border-gray-300 p-2 rounded">
+                        <div>
+                            <label class="block text-xs text-gray-500 mb-1">Thumbnail Artikel</label>
+                            <input type="file" name="image" required class="w-full text-xs file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:bg-green-100 file:text-green-700">
+                        </div>
+                        <textarea name="content" placeholder="Isi artikel..." required class="w-full border border-gray-300 p-2 rounded h-40"></textarea>
+                        <button type="submit" class="w-full bg-green-600 text-white font-bold py-2 rounded hover:bg-green-700 transition">Terbitkan Artikel</button>
+                    </form>
+                </div>
+
+                <div class="xl:col-span-2 overflow-x-auto">
+                    <table class="min-w-full text-left text-sm whitespace-nowrap">
+                        <thead class="bg-gray-100 text-gray-600">
+                            <tr>
+                                <th class="p-3 font-semibold rounded-tl-lg">Artikel</th>
+                                <th class="p-3 font-semibold">Tanggal</th>
+                                <th class="p-3 font-semibold rounded-tr-lg text-center">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-100">
+                            <% articles.forEach(article => { %>
+                                <tr class="hover:bg-gray-50 transition">
+                                    <td class="p-3 flex items-center space-x-3">
+                                        <img src="<%= article.image %>" class="w-12 h-12 object-cover rounded shadow-sm">
+                                        <p class="font-bold text-gray-800 whitespace-normal line-clamp-2 w-48"><%= article.title %></p>
+                                    </td>
+                                    <td class="p-3 text-gray-500"><%= article.createdAt.toLocaleDateString('id-ID') %></td>
+                                    <td class="p-3 text-center">
+                                        <a href="/admin/edit/article/<%= article._id %>" class="inline-block bg-blue-500 text-white px-3 py-1.5 rounded hover:bg-blue-600 transition text-xs shadow-sm mr-1"><i class="fas fa-edit"></i></a>
+                                        <form action="/admin/delete/article/<%= article._id %>" method="POST" class="inline" onsubmit="return confirm('Hapus artikel?')">
+                                            <button class="bg-red-500 text-white px-3 py-1.5 rounded hover:bg-red-600 transition text-xs shadow-sm"><i class="fas fa-trash"></i></button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            <% }) %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+        <!-- PANEL KELOLA AKUN -->
+        <section id="panel-akun" class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 hidden">
+            <h2 class="text-xl font-bold text-gray-800 mb-6 flex items-center border-b pb-4"><i class="fas fa-users-cog text-green-600 mr-3"></i> Manajemen Akun Admin</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Form Tambah Akun -->
+                <div class="bg-gray-50 p-6 rounded-lg border border-gray-100">
+                    <h3 class="font-bold text-gray-700 mb-4">Tambah Admin Baru</h3>
+                    <form action="/admin/add-account" method="POST" class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-600 mb-1">Username</label>
+                            <input type="text" name="username" required class="w-full border border-gray-300 p-2 rounded focus:ring-green-500">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-600 mb-1">Password</label>
+                            <input type="password" name="password" required class="w-full border border-gray-300 p-2 rounded focus:ring-green-500">
+                        </div>
+                        <button type="submit" class="w-full bg-green-600 text-white font-bold py-2 rounded hover:bg-green-700 transition">Simpan Admin</button>
+                    </form>
+                </div>
+
+                <!-- Daftar Akun -->
+                <div class="bg-white rounded-lg border border-gray-200 overflow-hidden">
+                    <table class="min-w-full text-left text-sm whitespace-nowrap">
+                        <thead class="bg-gray-100 text-gray-600 border-b">
+                            <tr>
+                                <th class="p-4 font-semibold">Username Admin</th>
+                                <th class="p-4 font-semibold text-right">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-100">
+                            <% admins.forEach(admin => { %>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="p-4 flex items-center font-bold text-gray-800"><i class="fas fa-user-circle text-gray-400 text-xl mr-3"></i> <%= admin.username %></td>
+                                    <td class="p-4 text-right">
+                                        <form action="/admin/delete-account/<%= admin._id %>" method="POST" onsubmit="return confirm('Hapus akun <%= admin.username %>?')">
+                                            <button class="bg-red-500 text-white px-3 py-1.5 rounded text-xs hover:bg-red-600 transition shadow-sm"><i class="fas fa-trash"></i> Hapus</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            <% }) %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+        
+    </main>
+
+    <script>
+        function switchTab(tabName) {
+            // 1. Sembunyikan semua panel
+            const panels = ['panel-banner','panel-paket', 'panel-galeri', 'panel-artikel','panel-akun'];
+            panels.forEach(id => {
+                document.getElementById(id).classList.add('hidden');
+                document.getElementById(id).classList.remove('block');
+            });
+
+            // 2. Reset tampilan semua tombol sidebar
+            const buttons = ['btn-banner','btn-paket', 'btn-galeri', 'btn-artikel','btn-akun'];
+            buttons.forEach(id => {
+                const btn = document.getElementById(id);
+                btn.classList.remove('bg-green-700', 'border-yellow-400');
+                btn.classList.add('border-transparent');
+            });
+
+            // 3. Tampilkan panel yang diklik
+            document.getElementById('panel-' + tabName).classList.remove('hidden');
+            document.getElementById('panel-' + tabName).classList.add('block');
+
+            // 4. Highlight tombol sidebar yang diklik
+            const activeBtn = document.getElementById('btn-' + tabName);
+            activeBtn.classList.remove('border-transparent');
+            activeBtn.classList.add('bg-green-700', 'border-yellow-400');
+        }
+
+        // Cek jika ada URL parameter atau localStorage untuk menyimpan status tab (Opsional, saat ini default ke paket)
+    </script>
+
+</body>
+</html>
