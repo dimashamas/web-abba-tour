@@ -78,14 +78,14 @@ app.get('/paket/:id', async (req, res) => {
     }
 });
 
-app.get('/artikel/:id', async (req, res) => {
-    try {
-        const article = await Article.findById(req.params.id);
-        if (!article) return res.status(404).send('Artikel tidak ditemukan');
-        res.render('article-detail2', { article });
-    } catch (err) {
-        res.status(500).send('Terjadi kesalahan server saat memuat artikel.');
-    }
+app.get('/artikel/:slug', async (req, res) => {
+  try {
+    const article = await Article.findOne({ slug: req.params.slug });
+    if (!article) return res.status(404).send('Artikel tidak ditemukan');
+    res.render('article-detail2', { article });
+  } catch (err) {
+    res.status(500).send('Terjadi kesalahan server saat memuat artikel.');
+  }
 });
 
 // --- ROUTES AUTENTIKASI (LOGIN / LOGOUT) ---
