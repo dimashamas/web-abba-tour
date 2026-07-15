@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= album.albumName %> - Galeri ABBA Tour</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="bg-gray-50 font-sans text-gray-800">
+
+    <nav class="bg-white shadow-md p-4 sticky top-0 z-50">
+        <div class="container mx-auto">
+            <a href="/#galeri" class="text-xl font-bold text-green-700 hover:text-green-800 transition">← Kembali ke Galeri Utama</a>
+        </div>
+    </nav>
+
+    <main class="container mx-auto py-12 px-4">
+        <header class="text-center mb-12 max-w-3xl mx-auto">
+            <span class="bg-green-100 text-green-800 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Dokumentasi Perjalanan</span>
+            <h1 class="text-3xl md:text-4xl font-extrabold text-gray-900 mt-3 mb-4 leading-tight">
+                <%= album.albumName %>
+            </h1>
+            <div class="w-24 h-1 bg-green-600 mx-auto rounded mb-4"></div>
+            <p class="text-gray-500 text-sm"><i class="fas fa-images mr-1"></i> Terdiri dari <%= album.photos.length %> foto dokumentasi jamaah</p>
+        </header>
+
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 max-w-6xl mx-auto">
+            <% album.photos.forEach((foto, index) => { %>
+                <div class="relative group overflow-hidden rounded-xl shadow-md cursor-pointer aspect-square bg-gray-200" onclick="openLightbox(<%= index %>)">
+                    <img src="<%= foto %>" class="w-full h-full object-cover transform group-hover:scale-105 transition duration-500">
+                    <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-30 flex items-center justify-center transition duration-300">
+                        <i class="fas fa-search-plus text-white text-3xl opacity-0 group-hover:opacity-100 transition duration-300 drop-shadow"></i>
+                    </div>
+                </div>
+            <% }) %>
+        </div>
+    </main>
+
+    <footer class="bg-gray-900 text-gray-400 py-6 text-center mt-20">
+        <p>&copy; 2026 PT. Abu Bakar Berkah (ABBA Tour).</p>
+    </footer>
+
+    <div id="lightbox" class="fixed inset-0 z-[100] hidden bg-black bg-opacity-95 flex items-center justify-center select-none backdrop-blur-sm">
+        <button onclick="closeLightbox()" class="absolute top-6 right-6 text-gray-400 hover:text-white transition text-5xl z-50">&times;</button>
+        
+        <button onclick="changeImage(-1)" class="absolute left-4 text-gray-400 hover:text-white transition text-5xl p-4 z-50">
+            <i class="fas fa-chevron-left"></i>
+        </button>
+        
+        <div class="relative w-full max-w-4xl max-h-screen px-12 flex flex-col items-center justify-center">
+            <img id="lightbox-img" src="" class="max-w-full max-h-[85vh] object-contain rounded shadow-2xl transition-all duration-300">
+        </div>
+        
+        <button onclick="changeImage(1)" class="absolute right-4 text-gray-400 hover:text-white transition text-5xl p-4 z-50">
+            <i class="fas fa-chevron-right"></i>
+        </button>
+    </div>
+
+    <script>
+        // Mengonversi array foto EJS ke array JavaScript biasa
+        const photos = <%- JSON.stringify(album.photos) %>;
+        let currentIndex = 0;
+
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+
+        function openLightbox(index) {
+            currentIndex = index;
+            updateImage();
+            lightbox.classList.remove('hidden');
+            document.body.style.overflow = 'hidden'; 
+        }
+
+        function closeLightbox() {
+            lightbox.classList.add('hidden');
+            document.body.style.overflow = 'auto'; 
+        }
+
+        function changeImage(direction) {
+            currentIndex += direction;
+            if (currentIndex >= photos.length) currentIndex = 0;
+            if (currentIndex < 0) currentIndex = photos.length - 1;
+            updateImage();
+        }
+
+        function updateImage() {
+            if (photos.length > 0) {
+                lightboxImg.src = photos[currentIndex];
+            }
+        }
+
+        lightbox.addEventListener('click', function(e) {
+            if (e.target === lightbox) closeLightbox();
+        });
+        
+        // Mendukung navigasi tombol keyboard panah kanan/kiri
+        document.addEventListener('keydown', function(e) {
+            if (!lightbox.classList.contains('hidden')) {
+                if (e.key === "ArrowRight") changeImage(1);
+                if (e.key === "ArrowLeft") changeImage(-1);
+                if (e.key === "Escape") closeLightbox();
+            }
+        });
+    </script>
+
+</body>
+</html>
