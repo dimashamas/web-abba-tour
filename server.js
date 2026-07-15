@@ -87,6 +87,13 @@ app.get('/artikel/:slug', async (req, res) => {
     res.status(500).send('Terjadi kesalahan server saat memuat artikel.');
   }
 });
+app.get('/profile', async (req, res) => {
+  try {
+    res.render('profile');
+  } catch (err) {
+    res.status(500).send('Terjadi kesalahan server saat memuat profil.');
+  }
+});
 
 // --- ROUTES AUTENTIKASI (LOGIN / LOGOUT) ---
 app.get('/login', (req, res) => {

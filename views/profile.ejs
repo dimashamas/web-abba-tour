@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Profil ABBA Tour — PT. Abu Bakar Berkah</title>
+    <script src="https://cdn.tailwindcss.com">
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800;14..32,900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+    <style>
+        /* ── BASE ── */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f7faf9;
+            color: #1e293b;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .main-wrapper {
+            flex: 1;
+        }
+
+        /* ── SCROLLBAR ── */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #e2e8f0;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #15803d;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #166534;
+        }
+
+        /* ── NAVBAR ── */
+        .navbar {
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        .navbar-scrolled {
+            background: rgba(255, 255, 255, 0.92);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
+        }
+        .nav-link {
+            transition: color 0.3s ease;
+            position: relative;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #15803d;
+            transition: width 0.3s ease;
+        }
+        .nav-link:hover::after,
+        .nav-link.active::after {
+            width: 100%;
+        }
+        .nav-link.active {
+            color: #15803d;
+            font-weight: 700;
+        }
+
+        /* ── HERO ── */
+        .hero-profile {
+            position: relative;
+            background: linear-gradient(135deg, #0a2e1a 0%, #1a4a2a 40%, #2d6a3f 100%);
+            padding: 80px 0 70px;
+            border-radius: 0 0 48px 48px;
+            overflow: hidden;
+        }
+        .hero-profile::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.03) 0%, transparent 40%);
+            pointer-events: none;
+        }
+        .hero-profile .floating-shapes span {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.04);
+            animation: floatShape 20s infinite ease-in-out alternate;
+        }
+        @keyframes floatShape {
+            0% {
+                transform: translate(0, 0) scale(1) rotate(0deg);
+            }
+            100% {
+                transform: translate(40px, -60px) scale(1.2) rotate(20deg);
+            }
+        }
+        .hero-title {
+            font-size: 2.8rem;
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+        }
+        @media (min-width: 768px) {
+            .hero-title {
+                font-size: 3.8rem;
+            }
+        }
+
+        /* ── SECTION TITLE ── */
+        .section-title {
+            font-weight: 800;
+            letter-spacing: -0.02em;
+        }
+        .section-underline {
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(90deg, #15803d, #22c55e);
+            border-radius: 10px;
+            margin: 16px auto 0;
+        }
+
+        /* ── CARD STYLES ── */
+        .info-card {
+            background: white;
+            border-radius: 20px;
+            padding: 24px 28px;
+            border: 1px solid #e9edf2;
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+        .info-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.08);
+            border-color: #15803d40;
+        }
+        .info-card .icon-circle {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: #dcfce7;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #15803d;
+            font-size: 1.3rem;
+            flex-shrink: 0;
+        }
+
+        /* ── TIMELINE ── */
+        .timeline-item {
+            position: relative;
+            padding-left: 32px;
+            padding-bottom: 32px;
+            border-left: 2px solid #e2e8f0;
+        }
+        .timeline-item:last-child {
+            border-left: none;
+            padding-bottom: 0;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -8px;
+            top: 4px;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: #15803d;
+            border: 3px solid #dcfce7;
+        }
+        .timeline-item .year {
+            font-weight: 800;
+            color: #15803d;
+            font-size: 1.1rem;
+        }
+
+        /* ── LEGALITY TABLE ── */
+        .legality-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .legality-table td {
+            padding: 10px 16px;
+            border-bottom: 1px solid #e9edf2;
+        }
+        .legality-table tr:last-child td {
+            border-bottom: none;
+        }
+        .legality-table .label {
+            font-weight: 600;
+            color: #1e293b;
+            width: 40%;
+            background: #f8fafc;
+        }
+        .legality-table .value {
+            color: #475569;
+        }
+
+        /* ── FADE UP ── */
+        .fade-up {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeUp 0.8s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+        }
+        .fade-up-d1 {
+            animation-delay: 0.1s;
+        }
+        .fade-up-d2 {
+            animation-delay: 0.2s;
+        }
+        .fade-up-d3 {
+            animation-delay: 0.3s;
+        }
+        .fade-up-d4 {
+            animation-delay: 0.4s;
+        }
+        @keyframes fadeUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ── FOOTER ── */
+        .footer-gradient {
+            background: linear-gradient(135deg, #0a2e1a 0%, #0f3d22 100%);
+        }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 640px) {
+            .hero-title {
+                font-size: 2.2rem;
+            }
+            .info-card {
+                padding: 20px;
+            }
+            .timeline-item {
+                padding-left: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ════════════════════════════════════════════ -->
+    <!--  NAVBAR                                     -->
+    <!-- ════════════════════════════════════════════ -->
+    <nav id="navbar" class="navbar fixed top-0 left-0 w-full z-50 py-3 px-4 md:px-8 transition-all duration-300">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <!-- Logo -->
+            <div class="flex items-center gap-2">
+                <a href="/" class="flex items-center gap-2">
+                    <div class="w-8 h-8 md:w-10 md:h-10 rounded-full bg-gradient-to-br from-green-600 to-emerald-400 flex items-center justify-center text-white font-extrabold text-xs shadow-lg shadow-green-600/20">
+                        AB
+                    </div>
+                    <span class="text-base md:text-lg font-extrabold text-gray-800 tracking-tight">
+                        ABBA <span class="text-green-700">Tour</span>
+                    </span>
+                </a>
+            </div>
+
+            <!-- Desktop Menu -->
+            <ul class="hidden lg:flex items-center gap-8 text-sm font-medium text-gray-700">
+                <li><a href="/" class="nav-link">Beranda</a></li>
+                <li><a href="#profile" class="nav-link active">Profil</a></li>
+                <li><a href="/#paket" class="nav-link">Paket</a></li>
+                <li><a href="/#galeri" class="nav-link">Galeri</a></li>
+                <li><a href="/#artikel" class="nav-link">Artikel</a></li>
+                <li><a href="/#kontak" class="nav-link">Hubungi</a></li>
+            </ul>
+
+            <!-- CTA -->
+            <a href="/#kontak" class="hidden lg:inline-block bg-gradient-to-r from-green-600 to-emerald-500 text-white px-6 py-2.5 rounded-full text-sm font-bold shadow-lg shadow-green-600/25 hover:shadow-green-600/40 hover:scale-105 transition-all duration-300">
+                Daftar Sekarang
+            </a>
+
+            <!-- Mobile Hamburger -->
+            <button id="hamburger" class="lg:hidden w-10 h-10 rounded-xl flex flex-col items-center justify-center gap-1.5 bg-white/60 backdrop-blur-sm border border-white/30 hover:bg-white/80 transition" aria-label="Menu">
+                <span class="block w-5 h-0.5 bg-gray-700 rounded-full transition-all duration-300"></span>
+                <span class="block w-5 h-0.5 bg-gray-700 rounded-full transition-all duration-300"></span>
+                <span class="block w-5 h-0.5 bg-gray-700 rounded-full transition-all duration-300"></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu Overlay & Panel (sama seperti halaman lain) -->
+    <div id="menuOverlay" class="fixed inset-0 z-40 bg-black/40 backdrop-blur-sm opacity-0 pointer-events-none transition-all duration-400"></div>
+    <div id="mobileMenu" class="mobile-menu fixed top-0 right-0 h-full w-72 z-50 bg-white/95 backdrop-blur-xl shadow-2xl border-l border-white/20 p-6 flex flex-col transition-all duration-400 transform translate-x-full opacity-0">
+        <div class="flex justify-between items-center mb-8">
+            <span class="text-xl font-extrabold text-gray-800">ABBA <span class="text-green-700">Tour</span></span>
+            <button id="closeMenu" class="w-9 h-9 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center text-gray-600 transition">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <ul class="flex flex-col gap-4 text-gray-700 font-medium text-base">
+            <li><a href="/" class="block py-2 hover:text-green-700 transition">Beranda</a></li>
+            <li><a href="#profile" class="block py-2 text-green-700 font-bold">Profil</a></li>
+            <li><a href="/#paket" class="block py-2 hover:text-green-700 transition">Paket</a></li>
+            <li><a href="/#galeri" class="block py-2 hover:text-green-700 transition">Galeri</a></li>
+            <li><a href="/#artikel" class="block py-2 hover:text-green-700 transition">Artikel</a></li>
+            <li><a href="/#kontak" class="block py-2 hover:text-green-700 transition">Hubungi Kami</a></li>
+        </ul>
+        <div class="mt-auto pt-6 border-t border-gray-200">
+            <a href="/#kontak" class="block w-full bg-gradient-to-r from-green-600 to-emerald-500 text-white text-center py-3 rounded-full font-bold shadow-lg shadow-green-600/25">
+                Daftar Sekarang
+            </a>
+        </div>
+    </div>
+
+
+    <!-- ════════════════════════════════════════════ -->
+    <!--  HERO PROFIL                                -->
+    <!-- ════════════════════════════════════════════ -->
+    <header class="hero-profile mt-[68px]">
+        <div class="floating-shapes absolute inset-0 overflow-hidden pointer-events-none">
+            <span class="w-64 h-64 -top-20 -left-20 opacity-30"></span>
+            <span class="w-96 h-96 bottom-10 -right-20 opacity-20" style="animation-delay:5s;"></span>
+            <span class="w-40 h-40 top-1/3 left-1/2 opacity-10" style="animation-delay:10s;"></span>
+        </div>
+
+        <div class="max-w-5xl mx-auto px-4 md:px-8 relative z-10 text-center">
+            <div class="inline-block bg-white/10 backdrop-blur-sm px-5 py-1.5 rounded-full text-white/80 text-sm font-medium border border-white/10 mb-5 fade-up">
+                <i class="fas fa-kaaba text-yellow-400 mr-1.5"></i> Tentang Kami
+            </div>
+            <h1 class="hero-title font-extrabold text-white leading-tight fade-up fade-up-d1">
+                Profil <span class="text-emerald-300">ABBA Tour</span>
+            </h1>
+            <p class="text-white/70 text-lg max-w-2xl mx-auto mt-4 fade-up fade-up-d2">
+                PT. Abu Bakar Berkah — Mitra terpercaya perjalanan ibadah Umroh &amp; Haji Khusus.
+            </p>
+            <div class="flex flex-wrap items-center justify-center gap-4 mt-8 fade-up fade-up-d3">
+                <a href="#sejarah" class="inline-flex items-center gap-2 bg-white text-green-800 px-6 py-2.5 rounded-full font-bold shadow-xl shadow-black/20 hover:scale-105 transition-all duration-300">
+                    <i class="fas fa-book-open"></i> Sejarah
+                </a>
+                <a href="#visi-misi" class="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm text-white border border-white/20 px-6 py-2.5 rounded-full font-semibold hover:bg-white/20 transition-all duration-300">
+                    <i class="fas fa-bullseye"></i> Visi & Misi
+                </a>
+                <a href="#legalitas" class="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm text-white border border-white/20 px-6 py-2.5 rounded-full font-semibold hover:bg-white/20 transition-all duration-300">
+                    <i class="fas fa-certificate"></i> Legalitas
+                </a>
+            </div>
+        </div>
+    </header>
+
+
+    <!-- ════════════════════════════════════════════ -->
+    <!--  MAIN CONTENT                               -->
+    <!-- ════════════════════════════════════════════ -->
+    <div class="main-wrapper px-4 md:px-8 py-16">
+
+        <div class="max-w-5xl mx-auto">
+
+            <!-- ===== SEJARAH SINGKAT ===== -->
+            <section id="sejarah" class="mb-20 fade-up">
+                <div class="flex items-center gap-3 mb-6">
+                    <div class="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center text-green-700 text-xl">
+                        <i class="fas fa-history"></i>
+                    </div>
+                    <h2 class="text-2xl md:text-3xl font-extrabold text-gray-800">Sejarah <span class="text-green-700">ABBA Tour</span></h2>
+                </div>
+
+                <div class="bg-white rounded-3xl shadow-sm border border-gray-100/80 p-6 md:p-10">
+                    <p class="text-gray-700 leading-relaxed mb-6">
+                        <strong>PT. Abu Bakar Berkah (ABBA Tour)</strong> didirikan pada Januari 2023 oleh <strong>H. Jumadi Sastradihardja, S.E., M.Ak</strong>, seorang praktisi berpengalaman di bidang perjalanan umrah dan haji yang telah mengabdikan diri selama lebih dari tiga dekade di industri ini.
+                    </p>
+
+                    <!-- Timeline -->
+                    <div class="mt-8 space-y-0">
+                        <div class="timeline-item">
+                            <span class="year">1992</span>
+                            <p class="text-gray-600 mt-1">Memulai karier sebagai Marketing &amp; Tour Leader di Bintang Selatan.</p>
+                        </div>
+                        <div class="timeline-item">
+                            <span class="year">1999</span>
+                            <p class="text-gray-600 mt-1">Menjadi Manager Umroh &amp; Haji di Galatama Nuansa Tour.</p>
+                        </div>
+                        <div class="timeline-item">
+                            <span class="year">2003</span>
+                            <p class="text-gray-600 mt-1">Dipercaya sebagai General Manager di Al Haramain Jaya Wisata.</p>
+                        </div>
+                        <div class="timeline-item">
+                            <span class="year">2005 – 2022</span>
+                            <p class="text-gray-600 mt-1">Bergabung dengan Mastour sebagai Kepala Cabang Jawa Tengah &amp; DIY, mengelola dan memberangkatkan ribuan jamaah dengan standar profesional.</p>
+                        </div>
+                        <div class="timeline-item">
+                            <span class="year">2023</span>
+                            <p class="text-gray-600 mt-1">Mendirikan <strong>ABBA Tour</strong> sebagai wujud komitmen menghadirkan layanan umrah dan haji khusus yang amanah, profesional, dan berorientasi pada kepuasan jamaah.</p>
+                        </div>
+                    </div>
+
+                    <div class="mt-8 p-5 bg-green-50/60 rounded-xl border-l-4 border-green-600">
+                        <p class="text-gray-700 leading-relaxed">
+                            Selain aktif di dunia profesional, beliau juga berkontribusi dalam berbagai organisasi sosial dan keagamaan, di antaranya sebagai pengurus di <strong>Ikatan Persaudaraan Haji Indonesia (IPHI) Provinsi Jawa Tengah</strong>, serta <strong>Ikatan Pembimbing Muthowif Umroh &amp; Haji Indonesia (IPMUHI) Provinsi Jawa Tengah</strong>. Keterlibatan ini semakin memperkuat komitmen beliau dalam pengembangan layanan ibadah haji dan umrah di Indonesia.
+                        </p>
+                    </div>
+
+                    <p class="text-gray-700 leading-relaxed mt-6">
+                        Dengan fondasi pengalaman yang kuat dan nilai-nilai keislaman yang dijunjung tinggi, <strong>ABBA Tour</strong> hadir sebagai mitra terpercaya dalam melayani perjalanan ibadah menuju Tanah Suci.
+                    </p>
+                </div>
+            </section>
+
+
+            <!-- ===== VISI & MISI ===== -->
+            <section id="visi-misi" class="mb-20 fade-up fade-up-d1">
+                <div class="flex items-center gap-3 mb-6">
+                    <div class="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center text-green-700 text-xl">
+                        <i class="fas fa-bullseye"></i>
+                    </div>
+                    <h2 class="text-2xl md:text-3xl font-extrabold text-gray-800">Visi &amp; <span class="text-green-700">Misi</span></h2>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <!-- Visi -->
+                    <div class="info-card flex flex-col items-start">
+                        <div class="icon-circle mb-4">
+                            <i class="fas fa-eye"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">Visi</h3>
+                        <p class="text-gray-600 leading-relaxed">
+                            Menjadi penyelenggara haji khusus dan umroh yang berkualitas, amanah, dan terpercaya, dengan bimbingan ibadah yang berlandaskan Al-Qur’an dan Sunnah, serta memberikan pelayanan dan kenyamanan terbaik guna mewujudkan kekhusyukan ibadah bagi setiap jamaah.
+                        </p>
+                    </div>
+
+                    <!-- Misi -->
+                    <div class="info-card flex flex-col items-start">
+                        <div class="icon-circle mb-4">
+                            <i class="fas fa-list-check"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">Misi</h3>
+                        <ul class="text-gray-600 leading-relaxed space-y-2 list-disc list-inside">
+                            <li>Senantiasa berupaya untuk berpegang teguh kepada prinsip ajaran Islam dalam semua aspek operasional perusahaan.</li>
+                            <li>Memiliki sumber daya manusia yang bertaqwa, loyal, amanah, profesional, serta ditopang oleh sistem IT yang handal dan mekanisme kerja yang kondusif, efektif, dan efisien.</li>
+                            <li>Inovatif, progresif, dan bekerja keras untuk memberikan pelayanan terbaik kepada pelanggan.</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+
+            <!-- ===== LEGALITAS ===== -->
+            <section id="legalitas" class="mb-20 fade-up fade-up-d2">
+                <div class="flex items-center gap-3 mb-6">
+                    <div class="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center text-green-700 text-xl">
+                        <i class="fas fa-certificate"></i>
+                    </div>
+                    <h2 class="text-2xl md:text-3xl font-extrabold text-gray-800">Legalitas <span class="text-green-700">Perusahaan</span></h2>
+                </div>
+
+                <div class="bg-white rounded-3xl shadow-sm border border-gray-100/80 p-6 md:p-10">
+                    <p class="text-gray-600 leading-relaxed mb-8">
+                        Sebagai bentuk komitmen dalam memberikan layanan yang aman, terpercaya, dan sesuai dengan regulasi yang berlaku, PT. Abu Bakar Berkah (ABBA Tour) telah memiliki legalitas resmi dan terdaftar pada instansi terkait. Berikut adalah data legalitas perusahaan:
+                    </p>
+
+                    <!-- Identitas Perusahaan -->
+                    <h3 class="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+                        <i class="fas fa-building text-green-600"></i> Identitas Perusahaan
+                    </h3>
+                    <table class="legality-table mb-8">
+                        <tr>
+                            <td class="label">Nama Perusahaan</td>
+                            <td class="value">PT. Abu Bakar Berkah</td>
+                        </tr>
+                        <tr>
+                            <td class="label">Alamat Kantor Pusat</td>
+                            <td class="value">Ruko Ivy Park A1 No. 16 Citraland BSB City, Kota Semarang</td>
+                        </tr>
+                        <tr>
+                            <td class="label">Telepon</td>
+                            <td class="value">024 76432270</td>
+                        </tr>
+                        <tr>
+                            <td class="label">Email</td>
+                            <td class="value">abbatoursemarang@gmail.com</td>
+                        </tr>
+                    </table>
+
+                    <!-- Perizinan Resmi -->
+                    <h3 class="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+                        <i class="fas fa-file-contract text-green-600"></i> Perizinan Resmi
+                    </h3>
+                    <table class="legality-table mb-8">
+                        <tr>
+                            <td class="label">SK PPIU Kementerian Agama</td>
+                            <td class="value">22082200682790004</td>
+                        </tr>
+                        <tr>
+                            <td class="label">SK PIHK Kementerian Agama</td>
+                            <td class="value">22082200682790005</td>
+                        </tr>
+                        <tr>
+                            <td class="label">Surat Izin Tanda Usaha Pariwisata (TUP)</td>
+                            <td class="value">2208220068279000</td>
+                        </tr>
+                    </table>
+
+                    <!-- Legalitas Perusahaan -->
+                    <h3 class="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+                        <i class="fas fa-gavel text-green-600"></i> Legalitas Perusahaan
+                    </h3>
+                    <table class="legality-table mb-8">
+                        <tr>
+                            <td class="label">Akta Pendirian</td>
+                            <td class="value">Nomor 69, Tanggal 29 Juli 2022</td>
+                        </tr>
+                        <tr>
+                            <td class="label">SK Kementerian Hukum dan HAM</td>
+                            <td class="value">AHU-0053358.AH.01.01.TAHUN 2022</td>
+                        </tr>
+                        <tr>
+                            <td class="label">NPWP</td>
+                            <td class="value">60.557.174.4-503.000</td>
+                        </tr>
+                    </table>
+
+                    <!-- Sertifikasi & Keanggotaan -->
+                    <h3 class="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+                        <i class="fas fa-medal text-green-600"></i> Sertifikasi &amp; Keanggotaan
+                    </h3>
+                    <table class="legality-table">
+                        <tr>
+                            <td class="label">IATA</td>
+                            <td class="value">15338724</td>
+                        </tr>
+                        <tr>
+                            <td class="label">Akreditasi KAN</td>
+                            <td class="value">(KAN) – MUTU-UHK-PPIU-074</td>
+                        </tr>
+                        <tr>
+                            <td class="label">HAKI</td>
+                            <td class="value">BRM2310A</td>
+                        </tr>
+                        <tr>
+                            <td class="label">Keanggotaan ASPHIRASI</td>
+                            <td class="value">097/Asphirasi/2023</td>
+                        </tr>
+                    </table>
+                </div>
+            </section>
+
+            <!-- CTA Penutup -->
+            <div class="text-center bg-gradient-to-r from-green-50 to-emerald-50/60 rounded-3xl p-8 md:p-12 border border-green-100/60 fade-up fade-up-d3">
+                <h3 class="text-2xl font-bold text-gray-800">Siap Beribadah dengan Tenang?</h3>
+                <p class="text-gray-600 mt-2 max-w-lg mx-auto">Percayakan perjalanan ibadah Anda kepada ABBA Tour, mitra terpercaya yang siap melayani dengan sepenuh hati.</p>
+                <div class="flex flex-wrap items-center justify-center gap-4 mt-6">
+                    <a href="/#paket" class="inline-flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-full font-bold shadow-lg shadow-green-600/25 transition">
+                        <i class="fas fa-ticket-alt"></i> Lihat Paket
+                    </a>
+                    <a href="/#kontak" class="inline-flex items-center gap-2 bg-white hover:bg-gray-50 text-gray-700 border border-gray-200 px-6 py-3 rounded-full font-semibold shadow-sm transition">
+                        <i class="fas fa-phone-alt"></i> Hubungi Kami
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <!-- ════════════════════════════════════════════ -->
+    <!--  FOOTER                                     -->
+    <!-- ════════════════════════════════════════════ -->
+    <footer class="footer-gradient text-white/80 py-8 px-4 border-t-4 border-green-600 mt-8">
+        <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 text-sm">
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-white font-extrabold text-xs backdrop-blur-sm border border-white/10">
+                    AB
+                </div>
+                <span class="font-bold text-white">ABBA <span class="text-emerald-300">Tour</span></span>
+                <span class="hidden md:inline text-white/30">|</span>
+                <span class="text-white/50 text-xs md:text-sm">PT. Abu Bakar Berkah</span>
+            </div>
+            <p class="text-white/40 text-xs">&copy; 2026 — Melayani dengan Hati</p>
+            <div class="flex gap-4 text-white/40">
+                <a href="#" class="hover:text-white transition"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="hover:text-white transition"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="hover:text-white transition"><i class="fab fa-youtube"></i></a>
+            </div>
+        </div>
+    </footer>
+
+
+    <!-- ════════════════════════════════════════════ -->
+    <!--  JAVASCRIPT                                 -->
+    <!-- ════════════════════════════════════════════ -->
+    <script>
+        // ── NAVBAR SCROLL ──
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            navbar.classList.toggle('navbar-scrolled', window.scrollY > 30);
+        });
+
+        // ── MOBILE MENU ──
+        const hamburger = document.getElementById('hamburger');
+        const closeMenu = document.getElementById('closeMenu');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const menuOverlay = document.getElementById('menuOverlay');
+
+        function openMobile() {
+            mobileMenu.classList.add('translate-x-0', 'opacity-100');
+            menuOverlay.classList.add('opacity-100', 'pointer-events-auto');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeMobile() {
+            mobileMenu.classList.remove('translate-x-0', 'opacity-100');
+            menuOverlay.classList.remove('opacity-100', 'pointer-events-auto');
+            document.body.style.overflow = 'auto';
+        }
+
+        hamburger.addEventListener('click', openMobile);
+        closeMenu.addEventListener('click', closeMobile);
+        menuOverlay.addEventListener('click', closeMobile);
+
+        document.querySelectorAll('#mobileMenu a').forEach(link => {
+            link.addEventListener('click', closeMobile);
+        });
+
+        // ── SMOOTH SCROLL UNTUK ANCHOR ──
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                const href = this.getAttribute('href');
+                if (href === '#') return;
+                e.preventDefault();
+                const target = document.querySelector(href);
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>
