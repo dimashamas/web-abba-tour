@@ -658,36 +658,171 @@
     </section>
 
 
-    <!-- ════════════════════════════════════════════ -->
-    <!--  GALERI                                     -->
-    <!-- ════════════════════════════════════════════ -->
-    <section id="galeri" class="py-16 md:py-24 px-4 bg-white">
+    <!-- ============================================ -->
+    <!--  GALERI — SISTEM ALBUM                        -->
+    <!-- ============================================ -->
+    <section id="galeri" class="py-20 px-4 bg-white">
         <div class="max-w-7xl mx-auto">
-            <div class="text-center mb-14 reveal">
+
+            <!-- Header Section -->
+            <div class="text-center mb-16 fade-up">
                 <span class="inline-block text-green-700 font-semibold text-sm tracking-widest uppercase bg-green-50 px-4 py-1.5 rounded-full border border-green-100">
-                    <i class="fas fa-images mr-2"></i>Momen Berharga
+                    <i class="fas fa-images mr-2"></i> Dokumentasi
                 </span>
-                <h2 class="section-title text-3xl md:text-4xl text-gray-800 mt-3">Galeri <span class="text-green-700">Keberangkatan</span></h2>
+                <h2 class="section-title text-3xl md:text-4xl text-gray-800 mt-3">
+                    Galeri <span class="text-green-700">Keberangkatan</span>
+                </h2>
                 <div class="section-underline"></div>
-                <p class="text-gray-500 max-w-xl mx-auto mt-4">Momen-momen penuh makna jamaah ABBA Tour di Tanah Suci.</p>
+                <p class="text-gray-500 max-w-xl mx-auto mt-4">
+                    Pilih album keberangkatan jamaah ABBA Tour untuk melihat dokumentasi lengkap momen berharga di Tanah Suci.
+                </p>
             </div>
 
+            <!-- Album Grid -->
             <% if (galleries.length === 0) { %>
-            <p class="text-gray-500 text-center py-12 bg-gray-50 rounded-2xl border border-gray-200">Belum ada foto di galeri.</p>
-            <% } else { %>
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-5 auto-rows-[200px] md:auto-rows-[240px]">
-                <% galleries.forEach((foto, idx) => { %>
-                <div class="gallery-item col-span-<%= idx === 0 ? '2' : '1' %> row-span-<%= idx === 0 ? '2' : '1' %> reveal" style="transition-delay:<%= (idx * 0.06) %>s;" onclick="openLightbox(<%= idx %>)">
-                    <img src="<%= foto.image %>" alt="<%= foto.title %>" loading="lazy" />
-                    <div class="gallery-overlay">
-                        <i class="fas fa-search-plus text-white text-4xl drop-shadow-lg"></i>
-                    </div>
+                <div class="text-center py-16 bg-gray-50/60 rounded-3xl border-2 border-dashed border-gray-200 transition hover:border-green-300">
+                    <i class="fas fa-folder-open text-5xl text-gray-300 mb-4"></i>
+                    <p class="text-gray-400 font-medium">Belum ada album galeri keberangkatan saat ini.</p>
+                    <p class="text-sm text-gray-300 mt-1">Pantau terus untuk dokumentasi terbaru.</p>
                 </div>
-                <% }) %>
-            </div>
+            <% } else { %>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8">
+                    <% galleries.forEach((album, index) => { %>
+                        <a href="/galeri/<%= album._id %>" 
+                        class="album-card group relative bg-white rounded-2xl shadow-md hover:shadow-2xl transition-all duration-500 overflow-hidden border border-gray-100/80 hover:border-green-200/60 transform hover:-translate-y-2"
+                        style="animation-delay: <%= index * 0.06 %>s;">
+                            
+                            <!-- Cover Image -->
+                            <div class="relative h-56 overflow-hidden bg-gray-100">
+                                <img src="<%= album.coverImage %>" 
+                                    alt="<%= album.albumName %>" 
+                                    class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" 
+                                    loading="lazy" />
+                                
+                                <!-- Overlay Gradient -->
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                                
+                                <!-- Badge Jumlah Foto -->
+                                <div class="absolute bottom-3 left-3 bg-black/50 backdrop-blur-sm text-white text-xs font-semibold px-3 py-1.5 rounded-full flex items-center gap-1.5 border border-white/10">
+                                    <i class="fas fa-image text-emerald-300"></i>
+                                    <%= album.photos ? album.photos.length : 0 %> Dokumentasi
+                                </div>
+
+                                <!-- Tombol Buka Album (muncul saat hover) -->
+                                <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                                    <span class="bg-white/90 backdrop-blur-sm text-green-700 font-bold px-5 py-2.5 rounded-full shadow-lg flex items-center gap-2 transform scale-90 group-hover:scale-100 transition-transform duration-300">
+                                        <i class="fas fa-folder-open"></i> Buka Album
+                                    </span>
+                                </div>
+
+                                <!-- Icon Decorative -->
+                                <div class="absolute top-3 right-3 w-10 h-10 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center text-white/80 border border-white/20">
+                                    <i class="fas fa-chevron-right text-sm"></i>
+                                </div>
+                            </div>
+
+                            <!-- Info Album -->
+                            <div class="p-5 bg-white">
+                                <h4 class="font-bold text-gray-800 text-base md:text-lg leading-snug group-hover:text-green-700 transition-colors line-clamp-2">
+                                    <%= album.albumName %>
+                                </h4>
+                                <div class="flex items-center justify-between mt-3 pt-3 border-t border-gray-100/80">
+                                    <span class="text-xs text-gray-400 flex items-center gap-1.5">
+                                        <i class="far fa-calendar-alt text-green-600"></i>
+                                        <%= album.createdAt ? album.createdAt.toLocaleDateString('id-ID', { day:'numeric', month:'short', year:'numeric' }) : 'Terbaru' %>
+                                    </span>
+                                    <span class="text-green-600 font-semibold text-sm group-hover:underline flex items-center gap-1">
+                                        Lihat <i class="fas fa-arrow-right text-xs"></i>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <!-- Subtle Glow Effect on Hover -->
+                            <div class="absolute -inset-1 bg-gradient-to-r from-green-400/20 to-emerald-400/20 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 -z-10"></div>
+                        </a>
+                    <% }) %>
+                </div>
             <% } %>
+
+            <!-- CTA Tambahan (opsional) -->
+            <div class="mt-16 text-center fade-up">
+                <p class="text-sm text-gray-400">Temukan lebih banyak momen perjalanan ibadah di album-album kami.</p>
+                <a href="#kontak" class="inline-block mt-3 text-green-700 font-semibold hover:text-green-800 transition">
+                    Ingin bergabung? Hubungi kami →
+                </a>
+            </div>
+
         </div>
     </section>
+
+    <!-- ============================================ -->
+    <!--  STYLE TAMBAHAN UNTUK GALERI ALBUM           -->
+    <!-- ============================================ -->
+    <style>
+        /* ── SECTION TITLE (konsisten dengan tema) ── */
+        .section-title {
+            font-weight: 800;
+            letter-spacing: -0.02em;
+        }
+        .section-underline {
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(90deg, #15803d, #22c55e);
+            border-radius: 10px;
+            margin: 16px auto 0;
+        }
+
+        /* ── ALBUM CARD ANIMASI ── */
+        .album-card {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeUpAlbum 0.8s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+        }
+
+        @keyframes fadeUpAlbum {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ── LINE CLAMP ── */
+        .line-clamp-2 {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        /* ── RESPONSIVE TWEAKS ── */
+        @media (max-width: 640px) {
+            .album-card .h-56 {
+                height: 200px;
+            }
+        }
+    </style>
+
+    <!-- ============================================ -->
+    <!--  JAVASCRIPT (opsional untuk interaksi ekstra) -->
+    <!-- ============================================ -->
+    <script>
+        (function() {
+            // Jika ada elemen album, tambahkan efek parallax ringan pada cover
+            const cards = document.querySelectorAll('.album-card');
+            cards.forEach(card => {
+                const img = card.querySelector('img');
+                card.addEventListener('mousemove', (e) => {
+                    const rect = card.getBoundingClientRect();
+                    const x = (e.clientX - rect.left) / rect.width - 0.5;
+                    const y = (e.clientY - rect.top) / rect.height - 0.5;
+                    img.style.transform = `scale(1.1) translate(${x * 6}px, ${y * 6}px)`;
+                });
+                card.addEventListener('mouseleave', () => {
+                    img.style.transform = 'scale(1) translate(0, 0)';
+                });
+            });
+        })();
+    </script>
 
 
     <!-- ════════════════════════════════════════════ -->

@@ -166,9 +166,44 @@ app.post('/admin/add-package', upload.single('image'), async (req, res) => {
     res.redirect('/admin');
 });
 
-app.post('/admin/add-gallery', upload.single('image'), async (req, res) => {
-    await Gallery.create({ title: req.body.title, image: '/assets/' + req.file.filename });
-    res.redirect('/admin');
+// --- PERUBAHAN ROUTE TAMBAH GALERI (ALBUM MULTIPLE UPLOAD) ---
+app.post('/admin/add-gallery', upload.fields([
+    { name: 'coverImage', maxCount: 1 },
+    { name: 'photos', maxCount: 30 } // Maksimal 30 foto per keberangkatan
+]), async (req, res) => {
+    try {
+        // 1. Ambil nama file untuk Cover Image
+        const coverPath = '/assets/' + req.files['coverImage'][0].filename;
+        
+        // 2. Ambil semua nama file untuk isi Album Photos
+        let photoPaths = [];
+        if (req.files['photos']) {
+            photoPaths = req.files['photos'].map(file => '/assets/' + file.filename);
+        }
+
+        // 3. Simpan ke Database
+        await Gallery.create({
+            albumName: req.body.albumName,
+            coverImage: coverPath,
+            photos: photoPaths
+        });
+
+        res.redirect('/admin');
+    } catch (err) {
+        console.log(err);
+        res.status(500).send('Gagal membuat album galeri keberangkatan.');
+    }
+});
+// --- ROUTE DETAIL ALBUM GALERI (Halaman Baru) ---
+app.get('/galeri/:id', async (req, res) => {
+    try {
+        const album = await Gallery.findById(req.params.id);
+        if (!album) return res.status(404).send('Album keberangkatan tidak ditemukan');
+        
+        res.render('album-detail', { album });
+    } catch (err) {
+        res.status(500).send('Terjadi kesalahan server saat memuat album.');
+    }
 });
 
 app.post('/admin/add-article', upload.single('image'), async (req, res) => {

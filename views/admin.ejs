@@ -146,29 +146,65 @@
         </section>
 
         <section id="panel-galeri" class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 hidden">
-            <h2 class="text-xl font-bold text-gray-800 mb-6 flex items-center border-b pb-4"><i class="fas fa-images text-green-600 mr-3"></i> Manajemen Galeri</h2>
+            <h2 class="text-xl font-bold text-gray-800 mb-6 flex items-center border-b pb-4"><i class="fas fa-images text-green-600 mr-3"></i> Manajemen Album Keberangkatan</h2>
             
-            <form action="/admin/add-gallery" method="POST" enctype="multipart/form-data" class="flex flex-col md:flex-row gap-4 mb-8 bg-gray-50 p-4 rounded-lg border border-gray-100">
-                <input type="text" name="title" placeholder="Judul Foto (cth: Jamaah Umroh April 2026)" required class="flex-grow border border-gray-300 p-2 rounded text-sm focus:ring-green-500">
-                <input type="file" name="image" required class="border border-gray-300 p-2 rounded bg-white text-sm">
-                <button type="submit" class="bg-green-600 text-white font-bold py-2 px-6 rounded hover:bg-green-700 transition">Upload Foto</button>
-            </form>
-
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <% galleries.forEach(foto => { %>
-                    <div class="relative group rounded-lg overflow-hidden border border-gray-200 shadow-sm">
-                        <img src="<%= foto.image %>" class="w-full h-40 object-cover">
-                        <div class="absolute inset-0 bg-black bg-opacity-60 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300">
-                            <p class="text-white text-sm font-bold text-center px-2 mb-3"><%= foto.title %></p>
-                            <div class="flex space-x-2">
-                                <a href="/admin/edit/gallery/<%= foto._id %>" class="bg-blue-500 text-white p-2 rounded-full hover:bg-blue-600"><i class="fas fa-edit"></i></a>
-                                <form action="/admin/delete/gallery/<%= foto._id %>" method="POST" onsubmit="return confirm('Hapus foto ini?')">
-                                    <button class="bg-red-500 text-white p-2 rounded-full hover:bg-red-600"><i class="fas fa-trash"></i></button>
-                                </form>
-                            </div>
+            <div class="grid grid-cols-1 xl:grid-cols-3 gap-8">
+                <div class="xl:col-span-1 bg-gray-50 p-5 rounded-lg border border-gray-100 h-fit">
+                    <h3 class="font-bold text-gray-700 mb-4 text-sm">Buat Album Keberangkatan</h3>
+                    <form action="/admin/add-gallery" method="POST" enctype="multipart/form-data" class="space-y-4 text-sm">
+                        <div>
+                            <label class="block text-xs text-gray-600 mb-1 font-medium">Nama Keberangkatan / Album</label>
+                            <input type="text" name="albumName" placeholder="cth: Jamaah Umroh Akbar Syawal 1447H" required class="w-full border border-gray-300 p-2.5 rounded focus:ring-green-500">
                         </div>
-                    </div>
-                <% }) %>
+                        <div>
+                            <label class="block text-xs text-gray-600 mb-1 font-medium">Foto Sampul Utama (1 Foto)</label>
+                            <input type="file" name="coverImage" accept="image/*" required class="w-full border p-2 rounded bg-white text-xs">
+                        </div>
+                        <div>
+                            <label class="block text-xs text-gray-600 mb-1 font-medium">Foto Dokumentasi Pendukung (Bisa Banyak)</label>
+                            <input type="file" name="photos" accept="image/*" multiple required class="w-full border p-2 rounded bg-white text-xs">
+                            <p class="text-[10px] text-gray-400 mt-1">*Anda dapat memilih banyak foto sekaligus dengan menekan tombol Ctrl saat memilih gambar.</p>
+                        </div>
+                        <button type="submit" class="w-full bg-green-600 text-white font-bold py-2.5 rounded hover:bg-green-700 transition shadow">Buat & Unggah Album</button>
+                    </form>
+                </div>
+
+                <div class="xl:col-span-2 overflow-x-auto">
+                    <table class="min-w-full text-left text-sm whitespace-nowrap">
+                        <thead class="bg-gray-100 text-gray-600">
+                            <tr>
+                                <th class="p-3 font-semibold">Foto Sampul</th>
+                                <th class="p-3 font-semibold">Nama Keberangkatan</th>
+                                <th class="p-3 font-semibold text-center">Jumlah Foto</th>
+                                <th class="p-3 font-semibold text-center">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-100">
+                            <% if (galleries.length === 0) { %>
+                                <tr><td colspan="4" class="p-4 text-center text-gray-400 italic">Belum ada album keberangkatan yang dibuat.</td></tr>
+                            <% } %>
+                            <% galleries.forEach(album => { %>
+                                <tr class="hover:bg-gray-50 transition">
+                                    <td class="p-3">
+                                        <img src="<%= album.coverImage %>" class="w-16 h-12 object-cover rounded shadow-sm">
+                                    </td>
+                                    <td class="p-3 font-bold text-gray-800 whitespace-normal max-w-xs">
+                                        <%= album.albumName %>
+                                    </td>
+                                    <td class="p-3 text-center text-gray-600 font-semibold">
+                                        <%= album.photos ? album.photos.length : 0 %> Foto
+                                    </td>
+                                    <td class="p-3 text-center">
+                                        <a href="/admin/edit/gallery/<%= album._id %>" class="inline-block bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 text-xs shadow-sm mr-1"><i class="fas fa-edit"></i> Edit</a>
+                                        <form action="/admin/delete/gallery/<%= album._id %>" method="POST" class="inline" onsubmit="return confirm('Hapus seluruh album beserta isinya?')">
+                                            <button type="submit" class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 text-xs shadow-sm"><i class="fas fa-trash"></i> Hapus</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            <% }) %>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </section>
 
