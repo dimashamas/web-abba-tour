@@ -226,31 +226,56 @@ app.get('/admin/edit/:type/:id', async (req, res) => {
 });
 
 // --- ROUTES EDIT (SIMPAN PERUBAHAN) ---
-app.post('/admin/edit/:type/:id', upload.single('image'), async (req, res) => {
+// Kita ubah upload.single menjadi upload.fields agar bisa menerima banyak input file berbeda
+app.post('/admin/edit/:type/:id', upload.fields([
+    { name: 'image', maxCount: 1 },
+    { name: 'coverImage', maxCount: 1 },
+    { name: 'photos', maxCount: 30 }
+]), async (req, res) => {
     const { type, id } = req.params;
     let updateData = { ...req.body };
 
-    if (req.file) {
-        updateData.image = '/assets/' + req.file.filename;
-        let oldData;
-        if (type === 'banner') oldData = await Banner.findById(id);
-        if (type === 'package') oldData = await Package.findById(id);
-        if (type === 'gallery') oldData = await Gallery.findById(id);
-        if (type === 'article') oldData = await Article.findById(id);
-
-        if (oldData && oldData.image) {
-            const oldPath = path.join(__dirname, 'public', oldData.image);
+    // Logika Khusus Tipe Galeri (Album)
+    if (type === 'gallery') {
+        const album = await Gallery.findById(id);
+        
+        // Jika ada upload cover baru
+        if (req.files && req.files['coverImage']) {
+            updateData.coverImage = '/assets/' + req.files['coverImage'][0].filename;
+            const oldPath = path.join(__dirname, 'public', album.coverImage);
             if (fs.existsSync(oldPath)) fs.unlinkSync(oldPath);
         }
-    }
-
-    if (type === 'banner') await Banner.findByIdAndUpdate(id, updateData);
-    else if (type === 'package') {
-        updateData.isActive = req.body.isActive === 'on';
-        await Package.findByIdAndUpdate(id, updateData);
+        
+        // Jika ada tambahan foto baru
+        if (req.files && req.files['photos']) {
+            const newPhotos = req.files['photos'].map(file => '/assets/' + file.filename);
+            updateData.photos = album.photos.concat(newPhotos); // Gabungkan foto lama dan tambahan baru
+        }
+        
+        await Gallery.findByIdAndUpdate(id, updateData);
     } 
-    else if (type === 'gallery') await Gallery.findByIdAndUpdate(id, updateData);
-    else if (type === 'article') await Article.findByIdAndUpdate(id, updateData);
+    // Logika Khusus Tipe Lain (Paket, Banner, Artikel)
+    else {
+        if (req.files && req.files['image']) {
+            updateData.image = '/assets/' + req.files['image'][0].filename;
+            let oldData;
+            if (type === 'banner') oldData = await Banner.findById(id);
+            if (type === 'package') oldData = await Package.findById(id);
+            if (type === 'article') oldData = await Article.findById(id);
+
+            if (oldData && oldData.image) {
+                const oldPath = path.join(__dirname, 'public', oldData.image);
+                if (fs.existsSync(oldPath)) fs.unlinkSync(oldPath);
+            }
+        }
+
+        if (type === 'banner') await Banner.findByIdAndUpdate(id, updateData);
+        else if (type === 'package') {
+            updateData.isActive = req.body.isActive === 'on';
+            await Package.findByIdAndUpdate(id, updateData);
+        } 
+        else if (type === 'article') await Article.findByIdAndUpdate(id, updateData);
+    }
 
     res.redirect('/admin');
 });
@@ -279,6 +304,28 @@ app.post('/admin/delete/:type/:id', async (req, res) => {
         if (fs.existsSync(filePath)) fs.unlinkSync(filePath);
     }
     res.redirect('/admin');
+});
+// --- ROUTE BARU: HAPUS FOTO SPESIFIK DALAM ALBUM ---
+app.post('/admin/delete-album-photo/:id', async (req, res) => {
+    try {
+        const albumId = req.params.id;
+        const photoToRemove = req.body.photoPath;
+        
+        const album = await Gallery.findById(albumId);
+        if (album) {
+            // Hapus nama file dari array database
+            album.photos = album.photos.filter(photo => photo !== photoToRemove);
+            await album.save();
+            
+            // Hapus file fisik dari folder assets
+            const filePath = path.join(__dirname, 'public', photoToRemove);
+            if (fs.existsSync(filePath)) fs.unlinkSync(filePath);
+        }
+        // Kembalikan admin ke halaman edit album tersebut
+        res.redirect('/admin/edit/gallery/' + albumId);
+    } catch (err) {
+        res.status(500).send("Gagal menghapus foto");
+    }
 });
 
 app.listen(PORT, () => console.log(`Server berjalan di http://localhost:${PORT}`));
