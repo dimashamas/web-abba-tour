@@ -5,9 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="msapplication-TileImage" content="/assets/logo-270.png"/>
     <link rel="icon" type="image/png" href="/assets/logo-270.png">
-    <!-- Untuk Apple devices -->
     <link rel="apple-touch-icon" sizes="180x180" href="i/assets/logo-180.png">
-    <!-- Untuk Android/Chrome -->
     <link rel="icon" sizes="192x192" href="/assets/logo-192.png">
     <title>ABBA Tour — PT. Abu Bakar Berkah</title>
     <meta name="description" content="Penyelenggara Resmi ibadah Umroh dan Haji Khusus dengan pembimbing profesional dan fasilitas terbaik.">
@@ -29,335 +27,214 @@
     <meta name="twitter:description" content="Penyelenggara Resmi ibadah Umroh dan Haji Khusus dengan pembimbing profesional dan fasilitas terbaik.">
     <meta name="twitter:image" content="https://abbatour.dimashamas.my.id/assets/thumbnail-1000x1000.jpg">
 
-    <!-- Meta Tags Generated via https://opengraph.dev -->
-
     <!-- Tailwind + Fonts + Icons -->
-    <script src="https://cdn.tailwindcss.com">
-    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,600;14..32,700;14..32,800;14..32,900&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
     <style>
-        /* ── RESET / BASE ── */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        /* ═══════════════════ TOKENS ═══════════════════ */
+        :root{
+            --ink:        #16302B;   /* deep toska-charcoal ink, headings */
+            --ink-soft:   #4B5A53;   /* body text on light */
+            --stone:      #8C8574;   /* muted / captions */
+            --sand:       #F7EFDD;   /* creamy paper background */
+            --sand-deep:  #EBDCC0;   /* deeper cream / khaki */
+            --paper:      #FFFDF6;   /* card cream-white */
+            --emerald:    #0A3733;   /* deep toska ink — hero / footer */
+            --emerald-2:  #0E7C6F;   /* hijau toska — CTAs */
+            --emerald-3:  #2FA89A;   /* lighter toska accent */
+            --gold:       #A9754C;   /* coklat krem — warm accent */
+            --gold-soft:  #D9B589;   /* soft caramel-cream */
+            --line:       rgba(22,48,43,0.10);
         }
-        html {
-            scroll-behavior: smooth;
-        }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        html { scroll-behavior:smooth; }
         body {
-            font-family: 'Inter', sans-serif;
-            background: #fafcfb;
-            overflow-x: hidden;
+            font-family:'Plus Jakarta Sans', sans-serif;
+            background: var(--sand);
+            color: var(--ink-soft);
+            overflow-x:hidden;
+        }
+        .font-display{ font-family:'Fraunces', serif; }
+        .eyebrow{
+            font-family:'Plus Jakarta Sans', sans-serif;
+            font-weight:700;
+            font-size:0.72rem;
+            letter-spacing:0.22em;
+            text-transform:uppercase;
         }
 
-        /* ── SCROLLBAR ── */
-        ::-webkit-scrollbar {
-            width: 8px;
+        ::-webkit-scrollbar{ width:9px; }
+        ::-webkit-scrollbar-track{ background:var(--sand-deep); }
+        ::-webkit-scrollbar-thumb{ background:var(--emerald-2); border-radius:10px; }
+        ::-webkit-scrollbar-thumb:hover{ background:var(--emerald); }
+
+        /* ═══════════════════ SIGNATURE: GEOMETRIC LATTICE ═══════════════════ */
+        .lattice-bg{ position:absolute; inset:0; pointer-events:none; }
+
+        /* ═══════════════════ NAVBAR ═══════════════════ */
+        .navbar{ transition: all .35s ease; }
+        .navbar-scrolled{
+            background: rgba(247,242,230,0.88) !important;
+            backdrop-filter: blur(18px) saturate(160%);
+            -webkit-backdrop-filter: blur(18px) saturate(160%);
+            box-shadow: 0 1px 0 var(--line);
         }
-        ::-webkit-scrollbar-track {
-            background: #e5e7eb;
+        .nav-link{ position:relative; }
+        .nav-link::after{
+            content:''; position:absolute; left:0; right:0; bottom:-6px; height:2px;
+            background: var(--gold); transform:scaleX(0); transform-origin:left;
+            transition: transform .3s ease;
         }
-        ::-webkit-scrollbar-thumb {
-            background: #15803d;
-            border-radius: 10px;
+        .nav-link:hover::after{ transform:scaleX(1); }
+
+        /* ═══════════════════ HERO ═══════════════════ */
+        .hero-emerald{
+            background:
+                radial-gradient(120% 90% at 85% 0%, rgba(47,168,154,0.32) 0%, transparent 55%),
+                radial-gradient(90% 70% at 10% 100%, rgba(169,117,76,0.14) 0%, transparent 55%),
+                linear-gradient(160deg, #082521 0%, var(--emerald) 55%, #0A3733 100%);
         }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #166534;
+        .hero-title .accent{ color: var(--gold-soft); font-style:italic; }
+        .hero-title span{
+            display:inline-block; opacity:0; transform:translateY(24px);
+            animation: riseIn .9s cubic-bezier(.22,1,.36,1) forwards;
+        }
+        @keyframes riseIn{ to{ opacity:1; transform:translateY(0); } }
+
+        .divider-gold{
+            width:46px; height:2px; background:var(--gold);
+            position:relative;
+        }
+        .divider-gold::before{
+            content:''; position:absolute; left:50%; top:50%; transform:translate(-50%,-50%) rotate(45deg);
+            width:6px; height:6px; background:var(--gold);
         }
 
-        /* ── GLASSMORPHISM ── */
-        .glass {
-            background: rgba(255, 255, 255, 0.6);
-            backdrop-filter: blur(16px) saturate(180%);
-            -webkit-backdrop-filter: blur(16px) saturate(180%);
-            border: 1px solid rgba(255, 255, 255, 0.25);
+        /* ticket-perforation divider used between hero and stat-strip */
+        .perforation{
+            position:relative; height:0;
         }
-        .glass-dark {
-            background: rgba(15, 23, 42, 0.7);
-            backdrop-filter: blur(16px) saturate(180%);
-            -webkit-backdrop-filter: blur(16px) saturate(180%);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-        }
+        .perforation svg{ display:block; width:100%; height:22px; }
 
-        /* ── NAVBAR ── */
-        .navbar {
-            transition: all 0.3s ease;
-        }
-        .navbar-scrolled {
-            background: rgba(255, 255, 255, 0.85) !important;
-            backdrop-filter: blur(20px) saturate(180%);
-            -webkit-backdrop-filter: blur(20px) saturate(180%);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
-        }
+        /* ═══════════════════ SLIDER ═══════════════════ */
+        .slider-btn{ transition: all .3s ease; }
+        .slider-btn:hover{ background: var(--gold); color:var(--ink); border-color:var(--gold); transform:scale(1.06); }
+        .slider-dot{ transition: all .3s ease; }
+        .slider-dot.active{ background: var(--gold); width:26px; border-radius:10px; }
 
-        /* ── HERO ── */
-        .hero-gradient {
-            background: linear-gradient(135deg, #0a2e1a 0%, #1a4a2a 40%, #2d6a3f 100%);
+        /* ═══════════════════ STAT STRIP ═══════════════════ */
+        .stat-strip{ background: var(--emerald); }
+        .stat-num{
+            font-family:'Fraunces', serif; font-weight:600; font-size:2.4rem; color:var(--gold-soft);
         }
-        .hero-pattern {
-            background-image: radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.03) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.02) 0%, transparent 40%);
-        }
-        .floating-shapes span {
-            position: absolute;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.04);
-            animation: floatShape 20s infinite ease-in-out alternate;
-        }
-        @keyframes floatShape {
-            0% {
-                transform: translate(0, 0) scale(1) rotate(0deg);
-            }
-            100% {
-                transform: translate(40px, -60px) scale(1.2) rotate(20deg);
-            }
-        }
+        .stat-div{ border-left:1px solid rgba(255,255,255,0.12); }
 
-        .hero-title span {
-            display: inline-block;
-            animation: fadeUp 1s ease forwards;
-            opacity: 0;
-        }
-        .hero-title span:nth-child(1) {
-            animation-delay: 0.1s;
-        }
-        .hero-title span:nth-child(2) {
-            animation-delay: 0.2s;
-        }
-        .hero-title span:nth-child(3) {
-            animation-delay: 0.3s;
-        }
-        .hero-title span:nth-child(4) {
-            animation-delay: 0.4s;
-        }
-        .hero-title span:nth-child(5) {
-            animation-delay: 0.5s;
-        }
-        .hero-title span:nth-child(6) {
-            animation-delay: 0.6s;
-        }
-        .hero-title span:nth-child(7) {
-            animation-delay: 0.7s;
-        }
-        .hero-title span:nth-child(8) {
-            animation-delay: 0.8s;
-        }
-        .hero-title span:nth-child(9) {
-            animation-delay: 0.9s;
-        }
+        /* ═══════════════════ SECTION HEADERS ═══════════════════ */
+        .section-title{ font-weight:600; letter-spacing:-0.01em; }
 
-        @keyframes fadeUp {
-            0% {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            100% {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* ── SLIDER ── */
-        .slider-btn {
-            transition: all 0.3s ease;
-        }
-        .slider-btn:hover {
-            background: #15803d;
-            transform: scale(1.08);
-        }
-        .slider-dot {
-            transition: all 0.3s ease;
-        }
-        .slider-dot.active {
-            background: #15803d;
-            width: 28px;
-            border-radius: 10px;
-        }
-
-        /* ── PACKAGE CARDS ── */
-        .package-card {
-            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-            transform: translateY(0);
-        }
-        .package-card:hover {
-            transform: translateY(-12px);
-            box-shadow: 0 30px 60px -20px rgba(21, 128, 61, 0.25);
-        }
-        .package-card .card-image {
-            transition: all 0.6s ease;
-        }
-        .package-card:hover .card-image {
-            transform: scale(1.05);
-        }
-        .package-badge {
-            position: absolute;
-            top: 16px;
-            right: 16px;
-            background: rgba(21, 128, 61, 0.92);
-            backdrop-filter: blur(8px);
-            padding: 4px 14px;
-            border-radius: 30px;
-            font-size: 0.7rem;
-            font-weight: 700;
-            letter-spacing: 0.5px;
-            color: #fff;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        /* ── GALLERY ── */
-        .gallery-item {
-            overflow: hidden;
-            border-radius: 16px;
+        /* ═══════════════════ TICKET / BOARDING-PASS PACKAGE CARDS ═══════════════════ */
+        .ticket-card{
+            background: var(--paper);
+            border: 1px solid var(--line);
+            border-radius: 18px;
+            overflow: visible;
             position: relative;
-            cursor: pointer;
+            transition: transform .45s cubic-bezier(.22,1,.36,1), box-shadow .45s ease;
         }
-        .gallery-item img {
-            transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        .gallery-item:hover img {
-            transform: scale(1.08);
-        }
-        .gallery-overlay {
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(135deg, rgba(10, 46, 26, 0.7), rgba(21, 128, 61, 0.4));
-            opacity: 0;
-            transition: all 0.4s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 16px;
-        }
-        .gallery-item:hover .gallery-overlay {
-            opacity: 1;
-        }
-
-        /* ── LIGHTBOX ── */
-        .lightbox {
-            background: rgba(0, 0, 0, 0.92);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-        }
-
-        /* ── ANIMATED COUNTER ── */
-        .stat-number {
-            font-size: 2.8rem;
-            font-weight: 900;
-            background: linear-gradient(135deg, #15803d, #22c55e);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        /* ── ARTICLES ── */
-        .article-card {
-            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-        }
-        .article-card:hover {
+        .ticket-card:hover{
             transform: translateY(-8px);
-            box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.12);
+            box-shadow: 0 28px 55px -25px rgba(14,42,30,0.35);
         }
+        .ticket-media{
+            position:relative; height:14rem; overflow:hidden;
+            border-radius:18px 18px 0 0;
+        }
+        .ticket-media img{ width:100%; height:100%; object-fit:cover; transition: transform .7s ease; }
+        .ticket-card:hover .ticket-media img{ transform:scale(1.06); }
+        .ticket-tag{
+            position:absolute; top:14px; left:14px;
+            background: rgba(14,42,30,0.85); backdrop-filter: blur(6px);
+            color:#F7EFDD; font-size:0.66rem; font-weight:700; letter-spacing:0.14em; text-transform:uppercase;
+            padding:6px 12px; border-radius:999px; border:1px solid rgba(255,255,255,0.18);
+        }
+        .ticket-tag.haji{ background: rgba(169,117,76,0.92); color:#2B1B10; }
 
-        /* ── WHATSAPP FLOAT ── */
-        .wa-float {
-            animation: waPulse 2.5s infinite ease-in-out;
-            box-shadow: 0 8px 32px rgba(37, 211, 102, 0.35);
+        /* perforation notch row between media and body — the "tear here" of a boarding pass */
+        .ticket-perf{
+            position:relative; height:0; background:transparent;
         }
-        @keyframes waPulse {
-            0%,
-            100% {
-                transform: scale(1);
-                box-shadow: 0 8px 32px rgba(37, 211, 102, 0.35);
-            }
-            50% {
-                transform: scale(1.06);
-                box-shadow: 0 12px 48px rgba(37, 211, 102, 0.55);
-            }
+        .ticket-perf::before, .ticket-perf::after{
+            content:''; position:absolute; top:-11px; width:22px; height:22px; border-radius:50%;
+            background: var(--sand-deep); z-index:2;
         }
-        .wa-ring {
-            animation: waRing 2.5s infinite ease-in-out;
+        .ticket-perf::before{ left:-11px; }
+        .ticket-perf::after{ right:-11px; }
+        .ticket-perf-line{
+            border-top: 2px dashed rgba(20,34,25,0.18);
+            margin: 0 22px;
         }
-        @keyframes waRing {
-            0%,
-            100% {
-                transform: scale(1);
-                opacity: 0.6;
-            }
-            50% {
-                transform: scale(1.25);
-                opacity: 0;
-            }
-        }
+        .package-card-body{ padding: 22px 22px 24px; }
 
-        /* ── SECTION TITLE ── */
-        .section-title {
-            font-weight: 800;
-            letter-spacing: -0.02em;
+        .stub-price{
+            font-family:'Fraunces', serif; font-weight:600; letter-spacing:-0.01em;
         }
-        .section-underline {
-            width: 60px;
-            height: 4px;
-            background: linear-gradient(90deg, #15803d, #22c55e);
-            border-radius: 10px;
-            margin: 16px auto 0;
+        .btn-detail{
+            transition: all .3s ease;
         }
+        .btn-detail:hover{ gap:12px; }
 
-        /* ── SCROLL REVEAL ── */
-        .reveal {
-            opacity: 0;
-            transform: translateY(50px);
-            transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+        /* ═══════════════════ GALLERY ═══════════════════ */
+        .album-card{
+            opacity:0; transform:translateY(26px);
+            animation: fadeUpAlbum .8s cubic-bezier(.22,1,.36,1) forwards;
         }
-        .reveal.visible {
-            opacity: 1;
-            transform: translateY(0);
+        @keyframes fadeUpAlbum{ to{ opacity:1; transform:translateY(0); } }
+        .album-media{ position:relative; height:14rem; overflow:hidden; border-radius:16px 16px 0 0; background:var(--sand-deep); }
+        .album-media img{ width:100%; height:100%; object-fit:cover; transition: transform .7s cubic-bezier(.22,1,.36,1); }
+        .album-card:hover .album-media img{ transform:scale(1.09); }
+        .album-overlay{
+            position:absolute; inset:0;
+            background: linear-gradient(0deg, rgba(10,32,22,0.75) 0%, rgba(10,32,22,0.05) 55%, transparent 100%);
+            opacity:0; transition: opacity .45s ease;
         }
+        .album-card:hover .album-overlay{ opacity:1; }
 
-        /* ── RESPONSIVE ── */
-        @media (max-width: 768px) {
-            .hero-title {
-                font-size: 2.4rem !important;
-            }
-            .stat-number {
-                font-size: 2rem;
-            }
-            .floating-shapes span {
-                display: none;
-            }
-        }
+        /* ═══════════════════ ARTICLES ═══════════════════ */
+        .article-card{ transition: transform .4s cubic-bezier(.22,1,.36,1), box-shadow .4s ease; }
+        .article-card:hover{ transform: translateY(-6px); box-shadow: 0 24px 46px -22px rgba(20,34,25,0.22); }
 
-        /* ── MOBILE MENU ── */
-        .mobile-menu {
-            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-            transform: translateX(100%);
-            opacity: 0;
+        /* ═══════════════════ WHATSAPP FLOAT ═══════════════════ */
+        .wa-float{ animation: waPulse 2.6s infinite ease-in-out; box-shadow: 0 10px 34px rgba(14,124,111,0.4); }
+        @keyframes waPulse{
+            0%,100%{ transform:scale(1); box-shadow:0 10px 34px rgba(14,124,111,0.4); }
+            50%{ transform:scale(1.05); box-shadow:0 14px 46px rgba(14,124,111,0.55); }
         }
-        .mobile-menu.open {
-            transform: translateX(0);
-            opacity: 1;
-        }
-        .menu-overlay {
-            transition: all 0.4s ease;
-            opacity: 0;
-            pointer-events: none;
-        }
-        .menu-overlay.open {
-            opacity: 1;
-            pointer-events: auto;
-        }
+        .wa-ring{ animation: waRing 2.6s infinite ease-in-out; }
+        @keyframes waRing{ 0%,100%{ transform:scale(1); opacity:.55; } 50%{ transform:scale(1.3); opacity:0; } }
 
-        /* ── FOOTER ── */
-        .footer-gradient {
-            background: linear-gradient(135deg, #0a2e1a 0%, #0f3d22 100%);
+        /* ═══════════════════ LIGHTBOX ═══════════════════ */
+        .lightbox{ background: rgba(10,20,14,0.94); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); }
+
+        /* ═══════════════════ SCROLL REVEAL ═══════════════════ */
+        .reveal{ opacity:0; transform:translateY(46px); transition: all .8s cubic-bezier(.22,1,.36,1); }
+        .reveal.visible{ opacity:1; transform:translateY(0); }
+
+        /* ═══════════════════ MOBILE MENU ═══════════════════ */
+        .mobile-menu{ transition: all .4s cubic-bezier(.22,1,.36,1); transform:translateX(100%); opacity:0; }
+        .mobile-menu.open{ transform:translateX(0); opacity:1; }
+        .menu-overlay{ transition: all .4s ease; opacity:0; pointer-events:none; }
+        .menu-overlay.open{ opacity:1; pointer-events:auto; }
+
+        .line-clamp-2{ display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+        .line-clamp-3{ display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden; }
+
+        @media (max-width: 768px){
+            .hero-title{ font-size:2.5rem !important; }
+            .stat-num{ font-size:1.9rem; }
         }
     </style>
 </head>
@@ -366,81 +243,67 @@
     <!-- ════════════════════════════════════════════ -->
     <!--  NAVBAR                                      -->
     <!-- ════════════════════════════════════════════ -->
-    <nav id="navbar" class="navbar fixed top-0 left-0 w-full z-50 py-3 px-4 md:px-8 transition-all duration-300">
+    <nav id="navbar" class="navbar fixed top-0 left-0 w-full z-50 py-3 px-4 md:px-8">
         <div class="max-w-7xl mx-auto flex items-center justify-between">
-            <!-- Logo -->
-             <a href="/" class="flex items-center">
-                <img src="/assets/logo.png" alt="Logo ABBA Tour" class="h-12 w-auto object-contain">
+            <a href="/" class="flex items-center">
+                <img src="/assets/logo.png" alt="Logo ABBA Tour" class="h-11 w-auto object-contain">
             </a>
-            <!-- <a href="/" class="flex items-center gap-2">
-                <div class="w-10 h-10 md:w-12 md:h-12 rounded-full bg-gradient-to-br from-green-600 to-emerald-400 flex items-center justify-center text-white font-extrabold text-sm shadow-lg shadow-green-600/20">
-                    AB
-                </div>
-                <span class="text-lg md:text-xl font-extrabold text-gray-800 tracking-tight">
-                    ABBA <span class="text-green-700">Tour</span>
-                </span>
-            </a> -->
 
-            <!-- Desktop Menu -->
-            <ul class="hidden lg:flex items-center gap-8 text-sm font-semibold text-gray-700">
-                <li><a href="#" class="hover:text-green-700 transition-colors">Beranda</a></li>
-                <li><a href="#profile" class="hover:text-green-700 transition-colors">Profile</a></li>
+            <ul class="hidden lg:flex items-center gap-9 text-sm font-semibold" style="color:var(--ink);">
+                <li><a href="#" class="nav-link hover:text-[var(--emerald-2)] transition-colors">Beranda</a></li>
+                <li><a href="#profile" class="nav-link hover:text-[var(--emerald-2)] transition-colors">Profile</a></li>
                 <li class="relative group">
-                    <a href="#paket" class="hover:text-green-700 transition-colors flex items-center gap-1 cursor-pointer">
-                        Paket <i class="fas fa-chevron-down text-[10px]"></i>
+                    <a href="#paket" class="nav-link hover:text-[var(--emerald-2)] transition-colors flex items-center gap-1.5 cursor-pointer">
+                        Paket <i class="fas fa-chevron-down text-[9px]"></i>
                     </a>
-                    <div class="absolute left-0 mt-2 w-52 bg-white/90 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/20 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 py-2">
-                        <a href="#paket-umroh" class="block px-5 py-2.5 text-sm text-gray-700 hover:bg-green-50 hover:text-green-700 transition">🕋 Paket Umroh</a>
-                        <a href="#paket-haji" class="block px-5 py-2.5 text-sm text-gray-700 hover:bg-green-50 hover:text-green-700 transition">🕊️ Paket Haji Khusus</a>
+                    <div class="absolute left-0 mt-3 w-56 bg-[var(--paper)] rounded-2xl shadow-2xl border border-[var(--line)] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 py-2">
+                        <a href="#paket-umroh" class="block px-5 py-3 text-sm font-medium hover:bg-[var(--sand)] transition">🕋 Paket Umroh</a>
+                        <a href="#paket-haji" class="block px-5 py-3 text-sm font-medium hover:bg-[var(--sand)] transition">🕊️ Paket Haji Khusus</a>
                     </div>
                 </li>
-                <li><a href="#galeri" class="hover:text-green-700 transition-colors">Galeri</a></li>
-                <li><a href="#artikel" class="hover:text-green-700 transition-colors">Artikel</a></li>
-                <li><a href="#kontak" class="hover:text-green-700 transition-colors">Hubungi</a></li>
+                <li><a href="#galeri" class="nav-link hover:text-[var(--emerald-2)] transition-colors">Galeri</a></li>
+                <li><a href="#artikel" class="nav-link hover:text-[var(--emerald-2)] transition-colors">Artikel</a></li>
+                <li><a href="#kontak" class="nav-link hover:text-[var(--emerald-2)] transition-colors">Hubungi</a></li>
             </ul>
 
-            <!-- Desktop CTA -->
-            <a href="#kontak" class="hidden lg:inline-block bg-gradient-to-r from-green-600 to-emerald-500 text-white px-6 py-2.5 rounded-full text-sm font-bold shadow-lg shadow-green-600/25 hover:shadow-green-600/40 hover:scale-105 transition-all duration-300">
-                Daftar Sekarang
+            <a href="#kontak" class="hidden lg:inline-flex items-center gap-2 bg-[var(--emerald)] text-[var(--sand)] px-6 py-2.5 rounded-full text-sm font-bold hover:bg-[var(--emerald-2)] transition-all duration-300 border border-transparent hover:border-[var(--gold)]">
+                Daftar Sekarang <i class="fas fa-arrow-right text-xs"></i>
             </a>
 
-            <!-- Mobile Hamburger -->
-            <button id="hamburger" class="lg:hidden w-10 h-10 rounded-xl flex flex-col items-center justify-center gap-1.5 bg-white/60 backdrop-blur-sm border border-white/30 hover:bg-white/80 transition" aria-label="Menu">
-                <span class="block w-5 h-0.5 bg-gray-700 rounded-full transition-all duration-300"></span>
-                <span class="block w-5 h-0.5 bg-gray-700 rounded-full transition-all duration-300"></span>
-                <span class="block w-5 h-0.5 bg-gray-700 rounded-full transition-all duration-300"></span>
+            <button id="hamburger" class="lg:hidden w-10 h-10 rounded-xl flex flex-col items-center justify-center gap-1.5 bg-[var(--paper)] border border-[var(--line)]" aria-label="Menu">
+                <span class="block w-5 h-0.5 rounded-full" style="background:var(--ink);"></span>
+                <span class="block w-5 h-0.5 rounded-full" style="background:var(--ink);"></span>
+                <span class="block w-5 h-0.5 rounded-full" style="background:var(--ink);"></span>
             </button>
         </div>
     </nav>
 
-    <!-- Mobile Menu Overlay -->
-    <div id="menuOverlay" class="menu-overlay fixed inset-0 z-40 bg-black/40 backdrop-blur-sm"></div>
+    <div id="menuOverlay" class="menu-overlay fixed inset-0 z-40 bg-black/45 backdrop-blur-sm"></div>
 
-    <!-- Mobile Menu Panel -->
-    <div id="mobileMenu" class="mobile-menu fixed top-0 right-0 h-full w-72 z-50 bg-white/95 backdrop-blur-xl shadow-2xl border-l border-white/20 p-6 flex flex-col">
+    <div id="mobileMenu" class="mobile-menu fixed top-0 right-0 h-full w-72 z-50 bg-[var(--paper)] shadow-2xl border-l border-[var(--line)] p-6 flex flex-col">
         <div class="flex justify-between items-center mb-8">
-            <span class="text-xl font-extrabold text-gray-800">ABBA <span class="text-green-700">Tour</span></span>
-            <button id="closeMenu" class="w-9 h-9 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center text-gray-600 transition">
+            <span class="font-display text-xl font-semibold" style="color:var(--ink);">ABBA <span style="color:var(--emerald-2);">Tour</span></span>
+            <button id="closeMenu" class="w-9 h-9 rounded-full bg-[var(--sand)] flex items-center justify-center text-[var(--ink-soft)]">
                 <i class="fas fa-times"></i>
             </button>
         </div>
-        <ul class="flex flex-col gap-4 text-gray-700 font-medium text-base">
-            <li><a href="#" class="block py-2 hover:text-green-700 transition">Beranda</a></li>
-            <li><a href="#profile" class="block py-2 hover:text-green-700 transition">Profile</a></li>
-            <li><a href="#paket-umroh" class="block py-2 hover:text-green-700 transition">Paket Umroh</a></li>
-            <li><a href="#paket-haji" class="block py-2 hover:text-green-700 transition">Paket Haji Khusus</a></li>
-            <li><a href="#galeri" class="block py-2 hover:text-green-700 transition">Galeri</a></li>
-            <li><a href="#artikel" class="block py-2 hover:text-green-700 transition">Artikel</a></li>
-            <li><a href="#kontak" class="block py-2 hover:text-green-700 transition">Hubungi Kami</a></li>
+        <ul class="flex flex-col gap-4 font-medium text-base" style="color:var(--ink-soft);">
+            <li><a href="#" class="block py-2 hover:text-[var(--emerald-2)] transition">Beranda</a></li>
+            <li><a href="#profile" class="block py-2 hover:text-[var(--emerald-2)] transition">Profile</a></li>
+            <li><a href="#paket-umroh" class="block py-2 hover:text-[var(--emerald-2)] transition">Paket Umroh</a></li>
+            <li><a href="#paket-haji" class="block py-2 hover:text-[var(--emerald-2)] transition">Paket Haji Khusus</a></li>
+            <li><a href="#galeri" class="block py-2 hover:text-[var(--emerald-2)] transition">Galeri</a></li>
+            <li><a href="#artikel" class="block py-2 hover:text-[var(--emerald-2)] transition">Artikel</a></li>
+            <li><a href="#kontak" class="block py-2 hover:text-[var(--emerald-2)] transition">Hubungi Kami</a></li>
         </ul>
-        <div class="mt-auto pt-6 border-t border-gray-200">
-            <a href="#kontak" class="block w-full bg-gradient-to-r from-green-600 to-emerald-500 text-white text-center py-3 rounded-full font-bold shadow-lg shadow-green-600/25">
+        <div class="mt-auto pt-6 border-t border-[var(--line)]">
+            <a href="#kontak" class="block w-full bg-[var(--emerald)] text-[var(--sand)] text-center py-3 rounded-full font-bold">
                 Daftar Sekarang
             </a>
-            <div class="flex items-center justify-center gap-4 mt-4 text-gray-500">
-                <a href="https://www.facebook.com/share/198GvfRZpW/" class="hover:text-green-600 transition"><i class="fab fa-facebook-f"></i></a>
-                <a href="https://www.instagram.com/abbatourandtravel/" class="hover:text-green-600 transition"><i class="fab fa-instagram"></i></a>
-                <a href="https://youtube.com/@abubakarberkah?si=sefiV89FUTDYU-kV" class="hover:text-green-600 transition"><i class="fab fa-youtube"></i></a>
+            <div class="flex items-center justify-center gap-4 mt-4" style="color:var(--stone);">
+                <a href="https://www.facebook.com/share/198GvfRZpW/" class="hover:text-[var(--emerald-2)] transition"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://www.instagram.com/abbatourandtravel/" class="hover:text-[var(--emerald-2)] transition"><i class="fab fa-instagram"></i></a>
+                <a href="https://youtube.com/@abubakarberkah?si=sefiV89FUTDYU-kV" class="hover:text-[var(--emerald-2)] transition"><i class="fab fa-youtube"></i></a>
             </div>
         </div>
     </div>
@@ -450,35 +313,42 @@
     <!--  HERO / SLIDER                              -->
     <!-- ════════════════════════════════════════════ -->
     <% if (banners && banners.length > 0) { %>
-    <section class="relative w-full h-[70vh] md:h-[85vh] overflow-hidden hero-gradient hero-pattern mt-[68px]">
-        <!-- Floating decorative shapes -->
-        <div class="floating-shapes absolute inset-0 overflow-hidden pointer-events-none">
-            <span class="w-64 h-64 -top-20 -left-20 opacity-30"></span>
-            <span class="w-96 h-96 bottom-10 -right-20 opacity-20" style="animation-delay:5s;"></span>
-            <span class="w-40 h-40 top-1/3 left-1/2 opacity-10" style="animation-delay:10s;"></span>
-        </div>
+    <section class="relative w-full h-[78vh] md:h-[92vh] overflow-hidden hero-emerald mt-0">
+
+        <!-- signature: interlocking geometric lattice -->
+        <svg class="lattice-bg" width="100%" height="100%" preserveAspectRatio="none">
+            <defs>
+                <pattern id="starPattern" width="86" height="86" patternUnits="userSpaceOnUse">
+                    <g stroke="#A9754C" stroke-width="1" fill="none" opacity="0.35">
+                        <rect x="21" y="21" width="44" height="44"></rect>
+                        <rect x="21" y="21" width="44" height="44" transform="rotate(45 43 43)"></rect>
+                    </g>
+                </pattern>
+            </defs>
+            <rect width="100%" height="100%" fill="url(#starPattern)"></rect>
+        </svg>
 
         <div id="sliderContainer" class="relative w-full h-full flex transition-transform duration-700 ease-in-out">
             <% banners.forEach((banner, idx) => { %>
             <div class="w-full h-full flex-shrink-0 relative">
-                <img src="<%= banner.image %>" class="w-full h-full object-cover opacity-70 mix-blend-overlay" />
-                <div class="absolute inset-0 flex flex-col items-center justify-center text-center px-6 z-10">
+                <img src="<%= banner.image %>" class="w-full h-full object-cover opacity-[0.28] mix-blend-luminosity" />
+                <div class="absolute inset-0 flex flex-col items-center justify-center text-center px-6 pt-16 z-10">
                     <div class="max-w-4xl">
-                        <div class="inline-block bg-white/10 backdrop-blur-sm px-5 py-1.5 rounded-full text-white/80 text-sm font-medium border border-white/10 mb-5">
-                            <i class="fas fa-star text-yellow-400 mr-1.5"></i> Perjalanan Ibadah Berkah
+                        <div class="inline-flex items-center gap-2 bg-white/[0.06] px-5 py-1.5 rounded-full text-[var(--gold-soft)] text-xs font-bold tracking-[0.18em] uppercase border border-white/10 mb-6">
+                            <i class="fas fa-star text-[var(--gold)]"></i> Penyelenggara Resmi Umroh &amp; Haji Khusus
                         </div>
-                        <h1 class="hero-title text-4xl md:text-6xl lg:text-7xl font-extrabold text-white leading-[1.1] tracking-tight drop-shadow-2xl">
-                            <span>I</span><span>b</span><span>a</span><span>d</span><span>a</span><span>h</span>
-                            <span class="text-emerald-300">B</span><span>e</span><span>r</span><span>k</span><span>a</span><span>h</span>
+                        <h1 class="hero-title font-display text-4xl md:text-6xl lg:text-7xl font-medium text-[var(--sand)] leading-[1.08] tracking-tight">
+                            <span>Ibadah</span> <span class="accent">Berkah,</span><br class="hidden md:block">
+                            <span>Perjalanan</span> <span>Tenang</span>
                         </h1>
-                        <p class="text-white/80 text-base md:text-xl max-w-2xl mx-auto mt-4 font-light leading-relaxed drop-shadow-md">
-                            Melayani Umroh &amp; Haji Khusus dengan pembimbing profesional dan fasilitas terbaik.
+                        <p class="text-white/65 text-base md:text-lg max-w-xl mx-auto mt-6 font-light leading-relaxed">
+                            Melayani Umroh &amp; Haji Khusus dengan pembimbing profesional, jadwal terjaga, dan fasilitas terbaik di Tanah Suci.
                         </p>
-                        <div class="flex flex-wrap items-center justify-center gap-4 mt-8">
-                            <a href="#paket" class="inline-flex items-center gap-2 bg-white text-green-800 px-8 py-3.5 rounded-full font-bold shadow-2xl shadow-black/20 hover:scale-105 transition-all duration-300">
+                        <div class="flex flex-wrap items-center justify-center gap-4 mt-9">
+                            <a href="#paket" class="inline-flex items-center gap-2 bg-[var(--gold)] text-[#2B1B10] px-8 py-3.5 rounded-full font-bold shadow-2xl shadow-black/20 hover:bg-[var(--gold-soft)] hover:scale-105 transition-all duration-300">
                                 <i class="fas fa-calendar-check"></i> Lihat Paket
                             </a>
-                            <a href="#kontak" class="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm text-white border border-white/20 px-8 py-3.5 rounded-full font-semibold hover:bg-white/20 transition-all duration-300">
+                            <a href="#kontak" class="inline-flex items-center gap-2 bg-white/[0.06] text-white border border-white/15 px-8 py-3.5 rounded-full font-semibold hover:bg-white/[0.12] transition-all duration-300">
                                 <i class="fas fa-headset"></i> Konsultasi
                             </a>
                         </div>
@@ -488,119 +358,116 @@
             <% }) %>
         </div>
 
-        <!-- Slider Controls -->
-        <button onclick="prevSlide()" class="slider-btn absolute left-4 md:left-8 top-1/2 -translate-y-1/2 w-11 h-11 md:w-14 md:h-14 rounded-full bg-black/30 backdrop-blur-sm text-white flex items-center justify-center text-lg md:text-2xl border border-white/10 hover:bg-green-600 transition-all z-20 opacity-0 hover:opacity-100 focus:opacity-100 group-hover:opacity-100">
+        <button onclick="prevSlide()" class="slider-btn absolute left-4 md:left-8 top-1/2 -translate-y-1/2 w-11 h-11 md:w-13 md:h-13 rounded-full bg-black/25 text-white flex items-center justify-center text-lg border border-white/15 transition-all z-20">
             <i class="fas fa-chevron-left"></i>
         </button>
-        <button onclick="nextSlide()" class="slider-btn absolute right-4 md:right-8 top-1/2 -translate-y-1/2 w-11 h-11 md:w-14 md:h-14 rounded-full bg-black/30 backdrop-blur-sm text-white flex items-center justify-center text-lg md:text-2xl border border-white/10 hover:bg-green-600 transition-all z-20 opacity-0 hover:opacity-100 focus:opacity-100 group-hover:opacity-100">
+        <button onclick="nextSlide()" class="slider-btn absolute right-4 md:right-8 top-1/2 -translate-y-1/2 w-11 h-11 md:w-13 md:h-13 rounded-full bg-black/25 text-white flex items-center justify-center text-lg border border-white/15 transition-all z-20">
             <i class="fas fa-chevron-right"></i>
         </button>
 
-        <!-- Dots -->
-        <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-2 z-20" id="sliderDots">
+        <div class="absolute bottom-10 left-1/2 -translate-x-1/2 flex gap-2 z-20" id="sliderDots">
             <% banners.forEach((_, idx) => { %>
-            <button onclick="goToSlide(<%= idx %>)" class="slider-dot w-2.5 h-2.5 rounded-full bg-white/40 transition-all duration-300" data-index="<%= idx %>"></button>
+            <button onclick="goToSlide(<%= idx %>)" class="slider-dot w-2.5 h-2.5 rounded-full bg-white/35 transition-all duration-300" data-index="<%= idx %>"></button>
             <% }) %>
         </div>
 
-        <!-- Scroll indicator -->
-        <div class="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 hidden md:flex flex-col items-center gap-1 text-white/40 text-xs font-light tracking-widest animate-bounce">
-            <span>GULIR</span>
-            <i class="fas fa-chevron-down text-sm"></i>
+        <!-- perforated hem, tying hero to the ticket motif used across the page -->
+        <div class="perforation absolute bottom-0 left-0 w-full">
+            <svg viewBox="0 0 1200 22" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M0 22 Q30 0 60 22 T120 22 T180 22 T240 22 T300 22 T360 22 T420 22 T480 22 T540 22 T600 22 T660 22 T720 22 T780 22 T840 22 T900 22 T960 22 T1020 22 T1080 22 T1140 22 T1200 22 V22 H0 Z" fill="#F7EFDD"/>
+            </svg>
         </div>
     </section>
     <% } %>
 
 
     <!-- ════════════════════════════════════════════ -->
-    <!--  PROFILE + STATS                           -->
+    <!--  STAT STRIP                                 -->
     <!-- ════════════════════════════════════════════ -->
-    <section id="profile" class="py-16 md:py-24 px-4 bg-white">
-        <div class="max-w-6xl mx-auto">
-            <div class="text-center mb-14 reveal">
-                <span class="inline-block text-green-700 font-semibold text-sm tracking-widest uppercase bg-green-50 px-4 py-1.5 rounded-full border border-green-100">
-                    <i class="fas fa-kaaba mr-2"></i>Tentang Kami
-                </span>
-                <h2 class="section-title text-3xl md:text-4xl text-gray-800 mt-3">ABBA <span class="text-green-700">Tour</span></h2>
-                <div class="section-underline"></div>
-                <p class="text-gray-600 max-w-2xl mx-auto mt-5 leading-relaxed text-base md:text-lg">
-                    PT. Abu Bakar Berkah (ABBA Tour) adalah biro perjalanan wisata religi yang berfokus pada penyelenggaraan ibadah Umroh dan Haji Khusus. Kami berkomitmen memberikan pelayanan sepenuh hati, membimbing jamaah sesuai sunnah, dan memastikan kenyamanan ibadah Anda di Tanah Suci.
-                </p>
-                <a href="/profile" class="inline-flex items-center gap-2 text-green-700 font-semibold text-sm hover:text-green-800 transition">Baca Selengkapnya <i class="fas fa-arrow-right text-xs"></i></a>
+    <section class="stat-strip py-10 px-4">
+        <div class="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4">
+            <div class="text-center reveal px-4">
+                <div class="stat-num" data-count="15">0</div>
+                <p class="text-xs md:text-sm font-semibold text-white/55 mt-1 tracking-wide">Tahun Pengalaman</p>
             </div>
-
-            <!-- Stats -->
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 mt-10">
-                <div class="bg-gradient-to-br from-green-50 to-emerald-50/50 rounded-2xl p-6 text-center border border-green-100/50 reveal">
-                    <div class="stat-number" data-count="15">0</div>
-                    <p class="text-sm font-semibold text-gray-600 mt-1">Tahun Pengalaman</p>
-                </div>
-                <div class="bg-gradient-to-br from-green-50 to-emerald-50/50 rounded-2xl p-6 text-center border border-green-100/50 reveal" style="transition-delay:0.1s;">
-                    <div class="stat-number" data-count="8500">0</div>
-                    <p class="text-sm font-semibold text-gray-600 mt-1">Jamaah Terlayani</p>
-                </div>
-                <div class="bg-gradient-to-br from-green-50 to-emerald-50/50 rounded-2xl p-6 text-center border border-green-100/50 reveal" style="transition-delay:0.2s;">
-                    <div class="stat-number" data-count="48">0</div>
-                    <p class="text-sm font-semibold text-gray-600 mt-1">Paket Tersedia</p>
-                </div>
-                <div class="bg-gradient-to-br from-green-50 to-emerald-50/50 rounded-2xl p-6 text-center border border-green-100/50 reveal" style="transition-delay:0.3s;">
-                    <div class="stat-number" data-count="100">0</div>
-                    <p class="text-sm font-semibold text-gray-600 mt-1">Kepuasan Jamaah</p>
-                </div>
+            <div class="text-center reveal stat-div px-4" style="transition-delay:.08s;">
+                <div class="stat-num" data-count="8500">0</div>
+                <p class="text-xs md:text-sm font-semibold text-white/55 mt-1 tracking-wide">Jamaah Terlayani</p>
+            </div>
+            <div class="text-center reveal stat-div px-4" style="transition-delay:.16s;">
+                <div class="stat-num" data-count="48">0</div>
+                <p class="text-xs md:text-sm font-semibold text-white/55 mt-1 tracking-wide">Paket Tersedia</p>
+            </div>
+            <div class="text-center reveal stat-div px-4" style="transition-delay:.24s;">
+                <div class="stat-num" data-count="100">0</div>
+                <p class="text-xs md:text-sm font-semibold text-white/55 mt-1 tracking-wide">Kepuasan Jamaah</p>
             </div>
         </div>
     </section>
 
 
     <!-- ════════════════════════════════════════════ -->
-    <!--  PAKET & JADWAL                            -->
+    <!--  PROFILE                                    -->
     <!-- ════════════════════════════════════════════ -->
-    <section id="paket" class="py-16 md:py-24 px-4 bg-gray-50/70">
+    <section id="profile" class="py-20 md:py-28 px-4 bg-[var(--paper)]">
+        <div class="max-w-4xl mx-auto text-center reveal">
+            <span class="eyebrow" style="color:var(--emerald-2);"><i class="fas fa-kaaba mr-2"></i>Tentang Kami</span>
+            <h2 class="font-display section-title text-3xl md:text-5xl mt-4" style="color:var(--ink);">ABBA <span style="color:var(--emerald-2); font-style:italic;">Tour</span></h2>
+            <div class="divider-gold mx-auto mt-6"></div>
+            <p class="max-w-2xl mx-auto mt-7 leading-relaxed text-base md:text-lg" style="color:var(--ink-soft);">
+                PT. Abu Bakar Berkah (ABBA Tour) adalah biro perjalanan wisata religi yang berfokus pada penyelenggaraan ibadah Umroh dan Haji Khusus. Kami berkomitmen memberikan pelayanan sepenuh hati, membimbing jamaah sesuai sunnah, dan memastikan kenyamanan ibadah Anda di Tanah Suci.
+            </p>
+            <a href="/profile" class="inline-flex items-center gap-2 font-bold text-sm mt-5 pb-1 border-b-2 border-transparent hover:border-[var(--gold)] transition" style="color:var(--emerald-2);">Baca Selengkapnya <i class="fas fa-arrow-right text-xs"></i></a>
+        </div>
+    </section>
+
+
+    <!-- ════════════════════════════════════════════ -->
+    <!--  PAKET & JADWAL — BOARDING-PASS CARDS       -->
+    <!-- ════════════════════════════════════════════ -->
+    <section id="paket" class="py-20 md:py-28 px-4" style="background:var(--sand-deep);">
         <div class="max-w-7xl mx-auto">
 
-            <!-- Section header -->
-            <div class="text-center mb-14 reveal">
-                <span class="inline-block text-green-700 font-semibold text-sm tracking-widest uppercase bg-green-50 px-4 py-1.5 rounded-full border border-green-100">
-                    <i class="fas fa-ticket-alt mr-2"></i>Pilihan Kami
-                </span>
-                <h2 class="section-title text-3xl md:text-4xl text-gray-800 mt-3">Paket &amp; <span class="text-green-700">Jadwal</span></h2>
-                <div class="section-underline"></div>
+            <div class="text-center mb-16 reveal">
+                <span class="eyebrow" style="color:var(--emerald-2);"><i class="fas fa-ticket-alt mr-2"></i>Pilihan Kami</span>
+                <h2 class="font-display section-title text-3xl md:text-5xl mt-4" style="color:var(--ink);">Paket &amp; <span style="color:var(--emerald-2); font-style:italic;">Jadwal</span></h2>
+                <div class="divider-gold mx-auto mt-6"></div>
+                <p class="max-w-lg mx-auto mt-5 text-sm md:text-base" style="color:var(--stone);">Setiap paket kami susun layaknya tiket perjalanan — jelas jadwalnya, jelas fasilitasnya.</p>
             </div>
 
             <!-- UMROH -->
-            <div id="paket-umroh" class="mb-16 reveal">
-                <div class="flex items-center gap-3 mb-6">
-                    <div class="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center text-green-700 text-lg">
+            <div id="paket-umroh" class="mb-20 reveal">
+                <div class="flex items-center gap-3 mb-7">
+                    <div class="w-10 h-10 rounded-full flex items-center justify-center text-lg" style="background:rgba(14,124,111,0.1); color:var(--emerald-2);">
                         <i class="fas fa-mosque"></i>
                     </div>
-                    <h3 class="text-2xl font-extrabold text-gray-800">Program <span class="text-green-700">Umroh</span></h3>
+                    <h3 class="font-display text-2xl font-medium" style="color:var(--ink);">Program <span style="color:var(--emerald-2); font-style:italic;">Umroh</span></h3>
                 </div>
 
                 <% if (umrohPackages.length === 0) { %>
-                <p class="text-gray-500 italic bg-white rounded-xl p-8 text-center shadow-sm border border-gray-200">Belum ada jadwal keberangkatan umroh saat ini.</p>
+                <p class="italic rounded-xl p-8 text-center shadow-sm border" style="color:var(--stone); background:var(--paper); border-color:var(--line);">Belum ada jadwal keberangkatan umroh saat ini.</p>
                 <% } else { %>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-10">
                     <% umrohPackages.forEach((pkg, idx) => { %>
-                    <div class="package-card bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100/80 relative reveal" style="transition-delay:<%= (idx * 0.08) %>s;">
-                        <div class="relative overflow-hidden h-56">
-                            <img src="<%= pkg.image %>" class="card-image w-full h-full object-cover" />
-                            <div class="package-badge">
-                                <i class="fas fa-star mr-1"></i> Umroh
-                            </div>
+                    <div class="ticket-card reveal" style="transition-delay:<%= (idx * 0.08) %>s;">
+                        <div class="ticket-media">
+                            <img src="<%= pkg.image %>" />
+                            <span class="ticket-tag">Umroh</span>
                         </div>
-                        <div class="p-6">
-                            <h4 class="font-bold text-xl text-gray-800 mb-2 line-clamp-2"><%= pkg.title %></h4>
-                            <div class="flex flex-wrap items-center gap-3 text-sm text-gray-500 mb-4">
-                                <span class="flex items-center gap-1.5 bg-gray-50 px-3 py-1.5 rounded-full border border-gray-100">
-                                    <i class="fas fa-calendar-alt text-green-600"></i> <%= pkg.departureDate.toLocaleDateString('id-ID', {day:'numeric', month:'short', year:'numeric'}) %>
+                        <div class="ticket-perf"><div class="ticket-perf-line"></div></div>
+                        <div class="package-card-body">
+                            <h4 class="font-bold text-xl mb-3 line-clamp-2" style="color:var(--ink);"><%= pkg.title %></h4>
+                            <div class="flex flex-wrap items-center gap-2 text-xs mb-5" style="color:var(--stone);">
+                                <span class="flex items-center gap-1.5 px-3 py-1.5 rounded-full" style="background:var(--sand);">
+                                    <i class="fas fa-calendar-alt" style="color:var(--emerald-2);"></i> <%= pkg.departureDate.toLocaleDateString('id-ID', {day:'numeric', month:'short', year:'numeric'}) %>
                                 </span>
-                                <span class="flex items-center gap-1.5 bg-gray-50 px-3 py-1.5 rounded-full border border-gray-100">
-                                    <i class="fas fa-clock text-green-600"></i> <%= pkg.duration %>
+                                <span class="flex items-center gap-1.5 px-3 py-1.5 rounded-full" style="background:var(--sand);">
+                                    <i class="fas fa-clock" style="color:var(--emerald-2);"></i> <%= pkg.duration %>
                                 </span>
                             </div>
-                            <div class="flex items-center justify-between mt-2">
-                                <span class="text-2xl font-extrabold text-green-700"><%= pkg.price %></span>
-                                <a href="/paket/<%= pkg._id %>" class="inline-flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-5 py-2.5 rounded-full text-sm font-semibold transition shadow-lg shadow-green-600/20 hover:shadow-green-600/30">
+                            <div class="flex items-center justify-between mt-2 pt-4" style="border-top:1px dashed var(--line);">
+                                <span class="stub-price text-2xl" style="color:var(--emerald-2);"><%= pkg.price %></span>
+                                <a href="/paket/<%= pkg._id %>" class="btn-detail inline-flex items-center gap-2 text-white px-5 py-2.5 rounded-full text-sm font-bold" style="background:var(--emerald);">
                                     Detail <i class="fas fa-arrow-right text-xs"></i>
                                 </a>
                             </div>
@@ -613,38 +480,37 @@
 
             <!-- HAJI KHUSUS -->
             <div id="paket-haji" class="reveal">
-                <div class="flex items-center gap-3 mb-6">
-                    <div class="w-10 h-10 rounded-full bg-amber-100 flex items-center justify-center text-amber-700 text-lg">
+                <div class="flex items-center gap-3 mb-7">
+                    <div class="w-10 h-10 rounded-full flex items-center justify-center text-lg" style="background:rgba(169,117,76,0.15); color:var(--gold);">
                         <i class="fas fa-kaaba"></i>
                     </div>
-                    <h3 class="text-2xl font-extrabold text-gray-800">Program <span class="text-amber-600">Haji Khusus</span></h3>
+                    <h3 class="font-display text-2xl font-medium" style="color:var(--ink);">Program <span style="color:var(--gold); font-style:italic;">Haji Khusus</span></h3>
                 </div>
 
                 <% if (hajiPackages.length === 0) { %>
-                <p class="text-gray-500 italic bg-white rounded-xl p-8 text-center shadow-sm border border-gray-200">Belum ada jadwal keberangkatan haji khusus saat ini.</p>
+                <p class="italic rounded-xl p-8 text-center shadow-sm border" style="color:var(--stone); background:var(--paper); border-color:var(--line);">Belum ada jadwal keberangkatan haji khusus saat ini.</p>
                 <% } else { %>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-10">
                     <% hajiPackages.forEach((pkg, idx) => { %>
-                    <div class="package-card bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100/80 relative reveal" style="transition-delay:<%= (idx * 0.08) %>s;">
-                        <div class="relative overflow-hidden h-56">
-                            <img src="<%= pkg.image %>" class="card-image w-full h-full object-cover" />
-                            <div class="package-badge" style="background:rgba(217,119,6,0.92);">
-                                <i class="fas fa-crown mr-1"></i> Haji Khusus
-                            </div>
+                    <div class="ticket-card reveal" style="transition-delay:<%= (idx * 0.08) %>s;">
+                        <div class="ticket-media">
+                            <img src="<%= pkg.image %>" />
+                            <span class="ticket-tag haji"><i class="fas fa-crown mr-1"></i>Haji Khusus</span>
                         </div>
-                        <div class="p-6">
-                            <h4 class="font-bold text-xl text-gray-800 mb-2 line-clamp-2"><%= pkg.title %></h4>
-                            <div class="flex flex-wrap items-center gap-3 text-sm text-gray-500 mb-4">
-                                <span class="flex items-center gap-1.5 bg-gray-50 px-3 py-1.5 rounded-full border border-gray-100">
-                                    <i class="fas fa-calendar-alt text-amber-600"></i> <%= pkg.departureDate.toLocaleDateString('id-ID', {day:'numeric', month:'short', year:'numeric'}) %>
+                        <div class="ticket-perf"><div class="ticket-perf-line"></div></div>
+                        <div class="package-card-body">
+                            <h4 class="font-bold text-xl mb-3 line-clamp-2" style="color:var(--ink);"><%= pkg.title %></h4>
+                            <div class="flex flex-wrap items-center gap-2 text-xs mb-5" style="color:var(--stone);">
+                                <span class="flex items-center gap-1.5 px-3 py-1.5 rounded-full" style="background:var(--sand);">
+                                    <i class="fas fa-calendar-alt" style="color:var(--gold);"></i> <%= pkg.departureDate.toLocaleDateString('id-ID', {day:'numeric', month:'short', year:'numeric'}) %>
                                 </span>
-                                <span class="flex items-center gap-1.5 bg-gray-50 px-3 py-1.5 rounded-full border border-gray-100">
-                                    <i class="fas fa-clock text-amber-600"></i> <%= pkg.duration %>
+                                <span class="flex items-center gap-1.5 px-3 py-1.5 rounded-full" style="background:var(--sand);">
+                                    <i class="fas fa-clock" style="color:var(--gold);"></i> <%= pkg.duration %>
                                 </span>
                             </div>
-                            <div class="flex items-center justify-between mt-2">
-                                <span class="text-2xl font-extrabold text-amber-700"><%= pkg.price %></span>
-                                <a href="/paket/<%= pkg._id %>" class="inline-flex items-center gap-2 bg-amber-600 hover:bg-amber-700 text-white px-5 py-2.5 rounded-full text-sm font-semibold transition shadow-lg shadow-amber-600/20 hover:shadow-amber-600/30">
+                            <div class="flex items-center justify-between mt-2 pt-4" style="border-top:1px dashed var(--line);">
+                                <span class="stub-price text-2xl" style="color:var(--gold);"><%= pkg.price %></span>
+                                <a href="/paket/<%= pkg._id %>" class="btn-detail inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-bold" style="background:var(--gold); color:#2B1B10;">
                                     Detail <i class="fas fa-arrow-right text-xs"></i>
                                 </a>
                             </div>
@@ -659,96 +525,74 @@
     </section>
 
 
-    <!-- ============================================ -->
-    <!--  GALERI — SISTEM ALBUM                        -->
-    <!-- ============================================ -->
-    <section id="galeri" class="py-20 px-4 bg-white">
+    <!-- ════════════════════════════════════════════ -->
+    <!--  GALERI — SISTEM ALBUM                      -->
+    <!-- ════════════════════════════════════════════ -->
+    <section id="galeri" class="py-20 md:py-28 px-4 bg-[var(--paper)]">
         <div class="max-w-7xl mx-auto">
 
-            <!-- Header Section -->
-            <div class="text-center mb-16 fade-up">
-                <span class="inline-block text-green-700 font-semibold text-sm tracking-widest uppercase bg-green-50 px-4 py-1.5 rounded-full border border-green-100">
-                    <i class="fas fa-images mr-2"></i> Dokumentasi
-                </span>
-                <h2 class="section-title text-3xl md:text-4xl text-gray-800 mt-3">
-                    Galeri <span class="text-green-700">Keberangkatan</span>
+            <div class="text-center mb-16 reveal">
+                <span class="eyebrow" style="color:var(--emerald-2);"><i class="fas fa-images mr-2"></i>Dokumentasi</span>
+                <h2 class="font-display section-title text-3xl md:text-5xl mt-4" style="color:var(--ink);">
+                    Galeri <span style="color:var(--emerald-2); font-style:italic;">Keberangkatan</span>
                 </h2>
-                <div class="section-underline"></div>
-                <p class="text-gray-500 max-w-xl mx-auto mt-4">
+                <div class="divider-gold mx-auto mt-6"></div>
+                <p class="max-w-xl mx-auto mt-5 text-sm md:text-base" style="color:var(--stone);">
                     Pilih album keberangkatan jamaah ABBA Tour untuk melihat dokumentasi lengkap momen berharga di Tanah Suci.
                 </p>
             </div>
 
-            <!-- Album Grid -->
             <% if (galleries.length === 0) { %>
-                <div class="text-center py-16 bg-gray-50/60 rounded-3xl border-2 border-dashed border-gray-200 transition hover:border-green-300">
-                    <i class="fas fa-folder-open text-5xl text-gray-300 mb-4"></i>
-                    <p class="text-gray-400 font-medium">Belum ada album galeri keberangkatan saat ini.</p>
-                    <p class="text-sm text-gray-300 mt-1">Pantau terus untuk dokumentasi terbaru.</p>
+                <div class="text-center py-16 rounded-3xl border-2 border-dashed" style="background:var(--sand); border-color:var(--line);">
+                    <i class="fas fa-folder-open text-5xl mb-4" style="color:var(--stone); opacity:.4;"></i>
+                    <p class="font-medium" style="color:var(--stone);">Belum ada album galeri keberangkatan saat ini.</p>
+                    <p class="text-sm mt-1" style="color:var(--stone); opacity:.7;">Pantau terus untuk dokumentasi terbaru.</p>
                 </div>
             <% } else { %>
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-7">
                     <% galleries.forEach((album, index) => { %>
-                        <a href="/galeri/<%= album._id %>" 
-                        class="album-card group relative bg-white rounded-2xl shadow-md hover:shadow-2xl transition-all duration-500 overflow-hidden border border-gray-100/80 hover:border-green-200/60 transform hover:-translate-y-2"
-                        style="animation-delay: <%= index * 0.06 %>s;">
-                            
-                            <!-- Cover Image -->
-                            <div class="relative h-56 overflow-hidden bg-gray-100">
-                                <img src="<%= album.coverImage %>" 
-                                    alt="<%= album.albumName %>" 
-                                    class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" 
-                                    loading="lazy" />
-                                
-                                <!-- Overlay Gradient -->
-                                <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                                
-                                <!-- Badge Jumlah Foto -->
-                                <div class="absolute bottom-3 left-3 bg-black/50 backdrop-blur-sm text-white text-xs font-semibold px-3 py-1.5 rounded-full flex items-center gap-1.5 border border-white/10">
-                                    <i class="fas fa-image text-emerald-300"></i>
+                        <a href="/galeri/<%= album._id %>"
+                        class="album-card group relative rounded-2xl overflow-hidden border transition-all duration-500 transform hover:-translate-y-2"
+                        style="background:var(--paper); border-color:var(--line); animation-delay: <%= index * 0.06 %>s;">
+
+                            <div class="album-media">
+                                <img src="<%= album.coverImage %>" alt="<%= album.albumName %>" loading="lazy" />
+                                <div class="album-overlay"></div>
+
+                                <div class="absolute bottom-3 left-3 text-white text-xs font-semibold px-3 py-1.5 rounded-full flex items-center gap-1.5 border border-white/15" style="background:rgba(14,42,30,0.65); backdrop-filter:blur(6px);">
+                                    <i class="fas fa-image" style="color:var(--gold-soft);"></i>
                                     <%= album.photos ? album.photos.length : 0 %> Dokumentasi
                                 </div>
 
-                                <!-- Tombol Buka Album (muncul saat hover) -->
                                 <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                                    <span class="bg-white/90 backdrop-blur-sm text-green-700 font-bold px-5 py-2.5 rounded-full shadow-lg flex items-center gap-2 transform scale-90 group-hover:scale-100 transition-transform duration-300">
+                                    <span class="bg-white/95 font-bold px-5 py-2.5 rounded-full shadow-lg flex items-center gap-2 transform scale-90 group-hover:scale-100 transition-transform duration-300" style="color:var(--emerald-2);">
                                         <i class="fas fa-folder-open"></i> Buka Album
                                     </span>
                                 </div>
-
-                                <!-- Icon Decorative -->
-                                <div class="absolute top-3 right-3 w-10 h-10 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center text-white/80 border border-white/20">
-                                    <i class="fas fa-chevron-right text-sm"></i>
-                                </div>
                             </div>
 
-                            <!-- Info Album -->
-                            <div class="p-5 bg-white">
-                                <h4 class="font-bold text-gray-800 text-base md:text-lg leading-snug group-hover:text-green-700 transition-colors line-clamp-2">
+                            <div class="p-5">
+                                <h4 class="font-bold text-base md:text-lg leading-snug transition-colors line-clamp-2" style="color:var(--ink);">
                                     <%= album.albumName %>
                                 </h4>
-                                <div class="flex items-center justify-between mt-3 pt-3 border-t border-gray-100/80">
-                                    <span class="text-xs text-gray-400 flex items-center gap-1.5">
-                                        <i class="far fa-calendar-alt text-green-600"></i>
+                                <div class="flex items-center justify-between mt-3 pt-3" style="border-top:1px solid var(--line);">
+                                    <span class="text-xs flex items-center gap-1.5" style="color:var(--stone);">
+                                        <i class="far fa-calendar-alt" style="color:var(--emerald-2);"></i>
                                         <%= album.createdAt ? album.createdAt.toLocaleDateString('id-ID', { day:'numeric', month:'short', year:'numeric' }) : 'Terbaru' %>
                                     </span>
-                                    <span class="text-green-600 font-semibold text-sm group-hover:underline flex items-center gap-1">
+                                    <span class="font-semibold text-sm group-hover:underline flex items-center gap-1" style="color:var(--emerald-2);">
                                         Lihat <i class="fas fa-arrow-right text-xs"></i>
                                     </span>
                                 </div>
                             </div>
-
-                            <!-- Subtle Glow Effect on Hover -->
-                            <div class="absolute -inset-1 bg-gradient-to-r from-green-400/20 to-emerald-400/20 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 -z-10"></div>
                         </a>
                     <% }) %>
                 </div>
             <% } %>
 
-            <!-- CTA Tambahan (opsional) -->
-            <div class="mt-16 text-center fade-up">
-                <p class="text-sm text-gray-400">Temukan lebih banyak momen perjalanan ibadah di album-album kami.</p>
-                <a href="#kontak" class="inline-block mt-3 text-green-700 font-semibold hover:text-green-800 transition">
+            <div class="mt-16 text-center reveal">
+                <p class="text-sm" style="color:var(--stone);">Temukan lebih banyak momen perjalanan ibadah di album-album kami.</p>
+                <a href="#kontak" class="inline-block mt-3 font-bold hover:underline transition" style="color:var(--emerald-2);">
                     Ingin bergabung? Hubungi kami →
                 </a>
             </div>
@@ -756,59 +600,8 @@
         </div>
     </section>
 
-    <!-- ============================================ -->
-    <!--  STYLE TAMBAHAN UNTUK GALERI ALBUM           -->
-    <!-- ============================================ -->
-    <style>
-        /* ── SECTION TITLE (konsisten dengan tema) ── */
-        .section-title {
-            font-weight: 800;
-            letter-spacing: -0.02em;
-        }
-        .section-underline {
-            width: 60px;
-            height: 4px;
-            background: linear-gradient(90deg, #15803d, #22c55e);
-            border-radius: 10px;
-            margin: 16px auto 0;
-        }
-
-        /* ── ALBUM CARD ANIMASI ── */
-        .album-card {
-            opacity: 0;
-            transform: translateY(30px);
-            animation: fadeUpAlbum 0.8s cubic-bezier(0.23, 1, 0.32, 1) forwards;
-        }
-
-        @keyframes fadeUpAlbum {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* ── LINE CLAMP ── */
-        .line-clamp-2 {
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-
-        /* ── RESPONSIVE TWEAKS ── */
-        @media (max-width: 640px) {
-            .album-card .h-56 {
-                height: 200px;
-            }
-        }
-    </style>
-
-    <!-- ============================================ -->
-    <!--  JAVASCRIPT (opsional untuk interaksi ekstra) -->
-    <!-- ============================================ -->
     <script>
-        (function() {
-            // Jika ada elemen album, tambahkan efek parallax ringan pada cover
+        (function () {
             const cards = document.querySelectorAll('.album-card');
             cards.forEach(card => {
                 const img = card.querySelector('img');
@@ -816,7 +609,7 @@
                     const rect = card.getBoundingClientRect();
                     const x = (e.clientX - rect.left) / rect.width - 0.5;
                     const y = (e.clientY - rect.top) / rect.height - 0.5;
-                    img.style.transform = `scale(1.1) translate(${x * 6}px, ${y * 6}px)`;
+                    img.style.transform = `scale(1.09) translate(${x * 6}px, ${y * 6}px)`;
                 });
                 card.addEventListener('mouseleave', () => {
                     img.style.transform = 'scale(1) translate(0, 0)';
@@ -829,32 +622,30 @@
     <!-- ════════════════════════════════════════════ -->
     <!--  ARTIKEL                                    -->
     <!-- ════════════════════════════════════════════ -->
-    <section id="artikel" class="py-16 md:py-24 px-4 bg-gray-50/70">
+    <section id="artikel" class="py-20 md:py-28 px-4" style="background:var(--sand-deep);">
         <div class="max-w-7xl mx-auto">
-            <div class="text-center mb-14 reveal">
-                <span class="inline-block text-green-700 font-semibold text-sm tracking-widest uppercase bg-green-50 px-4 py-1.5 rounded-full border border-green-100">
-                    <i class="fas fa-newspaper mr-2"></i>Wawasan
-                </span>
-                <h2 class="section-title text-3xl md:text-4xl text-gray-800 mt-3">Artikel &amp; <span class="text-green-700">Panduan</span></h2>
-                <div class="section-underline"></div>
+            <div class="text-center mb-16 reveal">
+                <span class="eyebrow" style="color:var(--emerald-2);"><i class="fas fa-newspaper mr-2"></i>Wawasan</span>
+                <h2 class="font-display section-title text-3xl md:text-5xl mt-4" style="color:var(--ink);">Artikel &amp; <span style="color:var(--emerald-2); font-style:italic;">Panduan</span></h2>
+                <div class="divider-gold mx-auto mt-6"></div>
             </div>
 
             <% if (articles.length === 0) { %>
-            <p class="text-gray-500 text-center py-12 bg-white rounded-2xl border border-gray-200">Belum ada artikel.</p>
+            <p class="text-center py-12 rounded-2xl border" style="color:var(--stone); background:var(--paper); border-color:var(--line);">Belum ada artikel.</p>
             <% } else { %>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                 <% articles.forEach((artikel, idx) => { %>
-                <div class="article-card bg-white rounded-2xl shadow-sm overflow-hidden border border-gray-100/80 reveal" style="transition-delay:<%= (idx * 0.08) %>s;">
+                <div class="article-card rounded-2xl overflow-hidden border reveal" style="background:var(--paper); border-color:var(--line); transition-delay:<%= (idx * 0.08) %>s;">
                     <div class="relative h-52 overflow-hidden">
                         <img src="<%= artikel.image %>" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
-                        <div class="absolute top-3 left-3 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-semibold text-gray-700 border border-white/30">
+                        <div class="absolute top-3 left-3 px-3 py-1 rounded-full text-xs font-semibold border" style="background:rgba(247,242,230,0.92); color:var(--ink); border-color:var(--line);">
                             <i class="far fa-calendar-alt mr-1"></i> <%= artikel.createdAt.toLocaleDateString('id-ID', {day:'numeric', month:'short', year:'numeric'}) %>
                         </div>
                     </div>
                     <div class="p-6">
-                        <h4 class="font-bold text-lg text-gray-800 mb-2 line-clamp-2"><%= artikel.title %></h4>
-                        <p class="text-sm text-gray-500 line-clamp-3 mb-4"><%= artikel.content %></p>
-                        <a href="/artikel/<%= artikel.slug %>" class="inline-flex items-center gap-2 text-green-700 font-semibold text-sm hover:text-green-800 transition">
+                        <h4 class="font-bold text-lg mb-2 line-clamp-2" style="color:var(--ink);"><%= artikel.title %></h4>
+                        <p class="text-sm line-clamp-3 mb-4" style="color:var(--stone);"><%= artikel.content %></p>
+                        <a href="/artikel/<%= artikel.slug %>" class="inline-flex items-center gap-2 font-bold text-sm hover:underline transition" style="color:var(--emerald-2);">
                             Baca Selengkapnya <i class="fas fa-arrow-right text-xs"></i>
                         </a>
                     </div>
@@ -869,54 +660,48 @@
     <!-- ════════════════════════════════════════════ -->
     <!--  KONTAK                                     -->
     <!-- ════════════════════════════════════════════ -->
-    <section id="kontak" class="py-16 md:py-24 px-4 bg-white">
+    <section id="kontak" class="py-20 md:py-28 px-4 bg-[var(--paper)]">
         <div class="max-w-6xl mx-auto">
-            <div class="text-center mb-14 reveal">
-                <span class="inline-block text-green-700 font-semibold text-sm tracking-widest uppercase bg-green-50 px-4 py-1.5 rounded-full border border-green-100">
-                    <i class="fas fa-phone-alt mr-2"></i>Hubungi
-                </span>
-                <h2 class="section-title text-3xl md:text-4xl text-gray-800 mt-3">Hubungi <span class="text-green-700">Kami</span></h2>
-                <div class="section-underline"></div>
-                <p class="text-gray-500 max-w-xl mx-auto mt-4">Siap melayani pertanyaan dan pendaftaran Anda dengan sepenuh hati.</p>
+            <div class="text-center mb-16 reveal">
+                <span class="eyebrow" style="color:var(--emerald-2);"><i class="fas fa-phone-alt mr-2"></i>Hubungi</span>
+                <h2 class="font-display section-title text-3xl md:text-5xl mt-4" style="color:var(--ink);">Hubungi <span style="color:var(--emerald-2); font-style:italic;">Kami</span></h2>
+                <div class="divider-gold mx-auto mt-6"></div>
+                <p class="max-w-xl mx-auto mt-5 text-sm md:text-base" style="color:var(--stone);">Siap melayani pertanyaan dan pendaftaran Anda dengan sepenuh hati.</p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
-                <!-- Alamat -->
-                <div class="bg-gradient-to-br from-gray-50 to-gray-100/50 rounded-2xl p-8 text-center border border-gray-200/50 reveal hover:shadow-lg transition-all duration-300 group">
-                    <div class="w-16 h-16 rounded-full bg-green-100 text-green-700 flex items-center justify-center mx-auto text-2xl group-hover:scale-110 transition-transform duration-300">
+                <div class="rounded-2xl p-8 text-center border reveal hover:shadow-xl transition-all duration-300 group" style="background:var(--sand); border-color:var(--line);">
+                    <div class="w-16 h-16 rounded-full flex items-center justify-center mx-auto text-2xl group-hover:scale-110 transition-transform duration-300" style="background:rgba(14,124,111,0.1); color:var(--emerald-2);">
                         <i class="fas fa-map-marker-alt"></i>
                     </div>
-                    <a href="https://maps.app.goo.gl/RXKPBeAW8v3Gmp4s5" target="_blank" class="text-lg font-bold text-gray-800 mt-4">Kantor Pusat</a>
-                    <p class="text-gray-500 text-sm leading-relaxed mt-1">Ruko Ivy Park A1-16, Citraland BSB City<br />Kota Semarang, Jawa Tengah</p>
+                    <a href="https://maps.app.goo.gl/RXKPBeAW8v3Gmp4s5" target="_blank" class="block text-lg font-bold mt-4" style="color:var(--ink);">Kantor Pusat</a>
+                    <p class="text-sm leading-relaxed mt-1" style="color:var(--stone);">Ruko Ivy Park A1-16, Citraland BSB City<br />Kota Semarang, Jawa Tengah</p>
                 </div>
 
-                <!-- WhatsApp -->
-                <div class="bg-gradient-to-br from-gray-50 to-gray-100/50 rounded-2xl p-8 text-center border border-gray-200/50 reveal hover:shadow-lg transition-all duration-300 group" style="transition-delay:0.1s;">
-                    <div class="w-16 h-16 rounded-full bg-green-100 text-green-700 flex items-center justify-center mx-auto text-2xl group-hover:scale-110 transition-transform duration-300">
+                <div class="rounded-2xl p-8 text-center border reveal hover:shadow-xl transition-all duration-300 group" style="background:var(--sand); border-color:var(--line); transition-delay:.1s;">
+                    <div class="w-16 h-16 rounded-full flex items-center justify-center mx-auto text-2xl group-hover:scale-110 transition-transform duration-300" style="background:rgba(14,124,111,0.1); color:var(--emerald-2);">
                         <i class="fab fa-whatsapp"></i>
                     </div>
-                    <h4 class="text-lg font-bold text-gray-800 mt-4">Telepon / WhatsApp</h4>
-                    <a href="https://wa.me/6281328897272" target="_blank" class="text-green-700 font-bold text-sm hover:underline">+62 813-2889-7272</a>
+                    <h4 class="text-lg font-bold mt-4" style="color:var(--ink);">Telepon / WhatsApp</h4>
+                    <a href="https://wa.me/6281328897272" target="_blank" class="font-bold text-sm hover:underline" style="color:var(--emerald-2);">+62 813-2889-7272</a>
                 </div>
 
-                <!-- Email -->
-                <div class="bg-gradient-to-br from-gray-50 to-gray-100/50 rounded-2xl p-8 text-center border border-gray-200/50 reveal hover:shadow-lg transition-all duration-300 group" style="transition-delay:0.2s;">
-                    <div class="w-16 h-16 rounded-full bg-green-100 text-green-700 flex items-center justify-center mx-auto text-2xl group-hover:scale-110 transition-transform duration-300">
+                <div class="rounded-2xl p-8 text-center border reveal hover:shadow-xl transition-all duration-300 group" style="background:var(--sand); border-color:var(--line); transition-delay:.2s;">
+                    <div class="w-16 h-16 rounded-full flex items-center justify-center mx-auto text-2xl group-hover:scale-110 transition-transform duration-300" style="background:rgba(14,124,111,0.1); color:var(--emerald-2);">
                         <i class="fas fa-envelope"></i>
                     </div>
-                    <h4 class="text-lg font-bold text-gray-800 mt-4">Email</h4>
-                    <a href="mailto:abbatoursemarang@gmail.com" class="text-green-700 font-bold text-sm hover:underline">abbatoursemarang@gmail.com</a>
+                    <h4 class="text-lg font-bold mt-4" style="color:var(--ink);">Email</h4>
+                    <a href="mailto:abbatoursemarang@gmail.com" class="font-bold text-sm hover:underline" style="color:var(--emerald-2);">abbatoursemarang@gmail.com</a>
                 </div>
             </div>
 
-            <!-- CTA tambahan -->
-            <div class="mt-12 text-center reveal">
-                <p class="text-gray-500 text-sm">Atau kunjungi sosial media kami untuk informasi terbaru</p>
-                <div class="flex items-center justify-center gap-5 mt-4 text-gray-500">
-                    <a href="https://www.facebook.com/share/198GvfRZpW/" target="_blank" class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center hover:bg-green-100 hover:text-green-700 transition text-lg"><i class="fab fa-facebook-f"></i></a>
-                    <a href="https://www.instagram.com/abbatourandtravel/" target="_blank" class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center hover:bg-green-100 hover:text-green-700 transition text-lg"><i class="fab fa-instagram"></i></a>
-                    <a href="https://youtube.com/@abubakarberkah?si=sefiV89FUTDYU-kV" target="_blank" class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center hover:bg-green-100 hover:text-green-700 transition text-lg"><i class="fab fa-youtube"></i></a>
-                    <a href="https://www.tiktok.com/@abbatour2?_r=1&_t=ZS-97pOqnPaPp4" target="_blank" class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center hover:bg-green-100 hover:text-green-700 transition text-lg"><i class="fab fa-tiktok"></i></a>
+            <div class="mt-14 text-center reveal">
+                <p class="text-sm" style="color:var(--stone);">Atau kunjungi sosial media kami untuk informasi terbaru</p>
+                <div class="flex items-center justify-center gap-5 mt-4">
+                    <a href="https://www.facebook.com/share/198GvfRZpW/" target="_blank" class="w-10 h-10 rounded-full flex items-center justify-center transition text-lg" style="background:var(--sand); color:var(--stone);"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://www.instagram.com/abbatourandtravel/" target="_blank" class="w-10 h-10 rounded-full flex items-center justify-center transition text-lg" style="background:var(--sand); color:var(--stone);"><i class="fab fa-instagram"></i></a>
+                    <a href="https://youtube.com/@abubakarberkah?si=sefiV89FUTDYU-kV" target="_blank" class="w-10 h-10 rounded-full flex items-center justify-center transition text-lg" style="background:var(--sand); color:var(--stone);"><i class="fab fa-youtube"></i></a>
+                    <a href="https://www.tiktok.com/@abbatour2?_r=1&_t=ZS-97pOqnPaPp4" target="_blank" class="w-10 h-10 rounded-full flex items-center justify-center transition text-lg" style="background:var(--sand); color:var(--stone);"><i class="fab fa-tiktok"></i></a>
                 </div>
             </div>
         </div>
@@ -926,27 +711,23 @@
     <!-- ════════════════════════════════════════════ -->
     <!--  FOOTER                                     -->
     <!-- ════════════════════════════════════════════ -->
-    <footer class="footer-gradient text-white/80 py-12 px-4 border-t-4 border-green-600">
-        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
-            <!-- Brand -->
+    <footer class="text-white/80 py-14 px-4 border-t" style="background:var(--emerald); border-color:var(--gold);">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-10">
             <div class="md:col-span-1">
-                <div class="flex items-center gap-2 mb-4">
-                    <a href="/" class="flex items-center">
-                        <img src="/assets/logo.png" alt="Logo ABBA Tour" class="h-12 w-auto object-contain">
-                    </a>
-                </div>
-                <p class="text-sm text-white/60 leading-relaxed max-w-xs">Melayani perjalanan ibadah Umroh dan Haji Khusus dengan sepenuh hati.</p>
-                <div class="flex gap-3 mt-4">
+                <a href="/" class="flex items-center mb-4">
+                    <img src="/assets/logo.png" alt="Logo ABBA Tour" class="h-11 w-auto object-contain">
+                </a>
+                <p class="text-sm text-white/55 leading-relaxed max-w-xs">Melayani perjalanan ibadah Umroh dan Haji Khusus dengan sepenuh hati.</p>
+                <div class="flex gap-3 mt-5">
                     <a href="https://www.facebook.com/share/198GvfRZpW/" target="_blank" class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center hover:bg-white/10 transition"><i class="fab fa-facebook-f text-sm"></i></a>
                     <a href="https://www.instagram.com/abbatourandtravel/" target="_blank" class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center hover:bg-white/10 transition"><i class="fab fa-instagram text-sm"></i></a>
                     <a href="https://youtube.com/@abubakarberkah?si=sefiV89FUTDYU-kV" target="_blank" class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center hover:bg-white/10 transition"><i class="fab fa-youtube text-sm"></i></a>
                 </div>
             </div>
 
-            <!-- Links -->
             <div>
-                <h5 class="text-white font-bold text-sm uppercase tracking-wider mb-4">Navigasi</h5>
-                <ul class="space-y-2 text-sm text-white/60">
+                <h5 class="text-[var(--gold-soft)] font-bold text-xs uppercase tracking-wider mb-4">Navigasi</h5>
+                <ul class="space-y-2.5 text-sm text-white/55">
                     <li><a href="#" class="hover:text-white transition">Beranda</a></li>
                     <li><a href="#profile" class="hover:text-white transition">Profile</a></li>
                     <li><a href="#paket" class="hover:text-white transition">Paket</a></li>
@@ -954,10 +735,9 @@
                 </ul>
             </div>
 
-            <!-- Layanan -->
             <div>
-                <h5 class="text-white font-bold text-sm uppercase tracking-wider mb-4">Layanan</h5>
-                <ul class="space-y-2 text-sm text-white/60">
+                <h5 class="text-[var(--gold-soft)] font-bold text-xs uppercase tracking-wider mb-4">Layanan</h5>
+                <ul class="space-y-2.5 text-sm text-white/55">
                     <li><a href="#paket-umroh" class="hover:text-white transition">Paket Umroh</a></li>
                     <li><a href="#paket-haji" class="hover:text-white transition">Paket Haji Khusus</a></li>
                     <li><a href="#" class="hover:text-white transition">Visa &amp; Dokumen</a></li>
@@ -965,18 +745,17 @@
                 </ul>
             </div>
 
-            <!-- Kontak -->
             <div>
-                <h5 class="text-white font-bold text-sm uppercase tracking-wider mb-4">Kontak</h5>
-                <ul class="space-y-2 text-sm text-white/60">
-                    <li><i class="fas fa-phone-alt w-5 text-emerald-400"></i> +62 813-2889-7272</li>
-                    <li><i class="fas fa-envelope w-5 text-emerald-400"></i> abbatoursemarang@gmail.com</li>
-                    <li><i class="fas fa-map-marker-alt w-5 text-emerald-400"></i> Ruko Ivy Park A1-16, Citraland BSB City, Kota Semarang, Jawa Tengah</li>
+                <h5 class="text-[var(--gold-soft)] font-bold text-xs uppercase tracking-wider mb-4">Kontak</h5>
+                <ul class="space-y-2.5 text-sm text-white/55">
+                    <li><i class="fas fa-phone-alt w-5 text-[var(--gold-soft)]"></i> +62 813-2889-7272</li>
+                    <li><i class="fas fa-envelope w-5 text-[var(--gold-soft)]"></i> abbatoursemarang@gmail.com</li>
+                    <li><i class="fas fa-map-marker-alt w-5 text-[var(--gold-soft)]"></i> Ruko Ivy Park A1-16, Citraland BSB City, Kota Semarang, Jawa Tengah</li>
                 </ul>
             </div>
         </div>
 
-        <div class="max-w-7xl mx-auto mt-10 pt-6 border-t border-white/10 text-center text-sm text-white/40">
+        <div class="max-w-7xl mx-auto mt-10 pt-6 border-t border-white/10 text-center text-sm text-white/35">
             &copy; 2026 PT. Abu Bakar Berkah (ABBA Tour). Melayani dengan Hati.
         </div>
     </footer>
@@ -987,12 +766,12 @@
     <!-- ════════════════════════════════════════════ -->
     <div class="fixed bottom-6 right-6 z-[9999]">
         <div class="relative">
-            <!-- Ring animasi -->
-            <div class="wa-ring absolute inset-0 rounded-full bg-green-500/30"></div>
+            <div class="wa-ring absolute inset-0 rounded-full" style="background:rgba(14,124,111,0.35);"></div>
             <a href="https://wa.me/6281328897272?text=Assalamualaikum%2C%20saya%20ingin%20konsultasi%20tentang%20paket%20Umroh%2FHaji%20ABBA%20Tour."
             target="_blank"
             rel="noopener noreferrer"
-            class="wa-float relative flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-4 py-3.5 md:px-5 md:py-4 rounded-full shadow-2xl transition-all duration-300 text-sm font-semibold"
+            class="wa-float relative flex items-center gap-2 text-white px-4 py-3.5 md:px-5 md:py-4 rounded-full transition-all duration-300 text-sm font-semibold"
+            style="background:var(--emerald-2);"
             aria-label="Konsultasi WhatsApp">
             <i class="fab fa-whatsapp text-xl md:text-2xl"></i>
             <span class="hidden md:inline">Konsultasi Sekarang</span>
@@ -1060,7 +839,7 @@
         }
     }
 
-    lightbox.addEventListener('click', function(e) {
+    lightbox.addEventListener('click', function (e) {
         if (e.target === lightbox) closeLightbox();
     });
 
@@ -1096,8 +875,7 @@
     updateSlider();
     let sliderInterval = setInterval(nextSlide, 5000);
 
-    // pause on hover
-    const heroSection = document.querySelector('.hero-gradient');
+    const heroSection = document.querySelector('.hero-emerald');
     if (heroSection) {
         heroSection.addEventListener('mouseenter', () => clearInterval(sliderInterval));
         heroSection.addEventListener('mouseleave', () => {
@@ -1134,25 +912,21 @@
     closeMenu.addEventListener('click', closeMobile);
     menuOverlay.addEventListener('click', closeMobile);
 
-    // Tutup mobile saat klik link
     document.querySelectorAll('#mobileMenu a').forEach(link => {
         link.addEventListener('click', closeMobile);
     });
 
-    // ── SCROLL REVEAL (Intersection Observer) ──
+    // ── SCROLL REVEAL ──
     const reveals = document.querySelectorAll('.reveal');
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('visible');
-            }
+            if (entry.isIntersecting) entry.target.classList.add('visible');
         });
     }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
-
     reveals.forEach(el => observer.observe(el));
 
     // ── ANIMATED COUNTERS ──
-    const statNumbers = document.querySelectorAll('.stat-number');
+    const statNumbers = document.querySelectorAll('.stat-num');
     let countersAnimated = false;
 
     const counterObserver = new IntersectionObserver((entries) => {
@@ -1177,7 +951,7 @@
         });
     }, { threshold: 0.3 });
 
-    const statsSection = document.querySelector('#profile .grid');
+    const statsSection = document.querySelector('.stat-strip');
     if (statsSection) counterObserver.observe(statsSection);
 </script>
 
